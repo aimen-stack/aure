@@ -262,6 +262,10 @@ export default function HeroWater({
   const rippleDuration = Math.max(1.5, 10 / Math.max(0.1, rippleSpeed));
   const glowOpacity = Math.max(0, Math.min(1, warmBleed));
 
+  // Fade out the solid backgrounds in the last 20% of the pin (progress 0.8 to 1.0)
+  // This allows the next section (OrbSequence) to show through and crossfade.
+  const bgOpacity = 1 - Math.max(0, Math.min(1, (progress - 0.8) / 0.2));
+
   return (
     <div
       ref={wrapRef}
@@ -270,7 +274,7 @@ export default function HeroWater({
         inset: 0,
         width: "100vw",
         height: "100vh",
-        background: "#000",
+        background: "transparent",
         overflow: "hidden",
       }}
     >
@@ -307,7 +311,7 @@ export default function HeroWater({
 
       <canvas
         ref={canvasRef}
-        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block", opacity: bgOpacity }}
       />
 
       {W > 0 && (
@@ -463,6 +467,7 @@ export default function HeroWater({
               height: reflH,
               background: "linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.65))",
               pointerEvents: "none",
+              opacity: bgOpacity,
             }}
           />
 
@@ -477,7 +482,7 @@ export default function HeroWater({
               background:
                 "linear-gradient(to right, rgba(255,255,255,0) 10%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 90%)",
               filter: `blur(${bloom * 0.4}px)`,
-              opacity: 0.6,
+              opacity: 0.6 * bgOpacity,
               pointerEvents: "none",
             }}
           />

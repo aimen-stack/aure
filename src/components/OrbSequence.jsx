@@ -8,6 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function OrbSequence() {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
+  const uiRef = useRef(null);
   const imagesRef = useRef([]);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -143,8 +144,19 @@ export default function OrbSequence() {
       tl.to(playhead, {
         frame: totalFrames - 1,
         ease: 'none', // Linear progression without easing
+        duration: 1, // Base duration for the timeline
         onUpdate: updateCanvas
-      });
+      }, 0);
+
+      // Fade in the UI overlay after the 100vh crossfade with HeroWater completes.
+      // 100vh out of 400vh is 25% of the timeline (0.25).
+      if (uiRef.current) {
+        tl.fromTo(uiRef.current,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.1, ease: 'none' },
+          0.25
+        );
+      }
 
       return () => {
         window.removeEventListener('resize', handleResize);
@@ -177,7 +189,9 @@ export default function OrbSequence() {
         />
 
         {/* UI Overlay */}
-        <div style={{ 
+        <div 
+          ref={uiRef}
+          style={{ 
           position: 'absolute', 
           top: 0, 
           left: 0, 
