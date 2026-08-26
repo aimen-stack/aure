@@ -10,13 +10,19 @@ export default function LandingPage() {
         The first section: the water reflection text.
         It has a relative height of 100vh, meaning you can scroll past it.
       */}
-      <HeroWater />
+      <div style={{ position: 'relative', zIndex: 2 }}>
+        <HeroWater />
+      </div>
       
       {/* 
         The second section: the pinned orb animation.
         This handles its own GSAP pinning logic when it scrolls into view.
+        We pull it up by 200vh so it overlaps with the end of HeroWater's 500vh pin,
+        creating a 100vh crossfade window where both are pinned.
       */}
-      <OrbSequence />
+      <div style={{ position: 'relative', zIndex: 1, marginTop: '-200vh' }}>
+        <OrbSequence />
+      </div>
 
       {/* 
         The third section: The Friction text and stats.
