@@ -1,7 +1,7 @@
 import React from 'react';
 import HeroWater from './components/HeroWater';
 import OrbSequence from './components/OrbSequence';
-import TheFriction from './components/TheFriction';
+import OrbToLogoSequence from './components/OrbToLogoSequence';
 
 export default function LandingPage() {
   return (
@@ -13,7 +13,7 @@ export default function LandingPage() {
       <div style={{ position: 'relative', zIndex: 2 }}>
         <HeroWater />
       </div>
-      
+
       {/* 
         The second section: the pinned orb animation.
         This handles its own GSAP pinning logic when it scrolls into view.
@@ -25,9 +25,12 @@ export default function LandingPage() {
       </div>
 
       {/* 
-        The third section: The Friction text and stats.
+        The third section: The Orb to Logo sequence.
+        This handles its own GSAP pinning logic and also includes TheFriction content.
       */}
-      <TheFriction />
+      <div style={{ position: 'relative', zIndex: 2 }}>
+        <OrbToLogoSequence />
+      </div>
     </div>
   );
 }
