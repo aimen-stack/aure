@@ -16,7 +16,7 @@ export default function OrbSequence() {
 
   useEffect(() => {
     let loadedCount = 0;
-    
+
     // Disable scrolling while loading
     document.body.style.overflow = 'hidden';
 
@@ -34,7 +34,7 @@ export default function OrbSequence() {
       };
       imagesRef.current.push(img);
     }
-    
+
     return () => {
       document.body.style.overflow = 'auto';
     };
@@ -50,7 +50,7 @@ export default function OrbSequence() {
       root.style.margin = '0';
       root.style.padding = '0';
     }
-    
+
     return () => {
       if (root) {
         // Reset styles on unmount
@@ -69,7 +69,7 @@ export default function OrbSequence() {
     if (!canvas || !image) return;
 
     const context = canvas.getContext('2d');
-    
+
     // Handle devicePixelRatio for sharp rendering on retina screens
     const dpr = window.devicePixelRatio || 1;
     const rect = canvas.getBoundingClientRect();
@@ -78,7 +78,7 @@ export default function OrbSequence() {
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
     }
-    
+
     // Clear the canvas cleanly
     context.setTransform(1, 0, 0, 1, 0, 0);
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -86,13 +86,13 @@ export default function OrbSequence() {
 
     const hRatio = rect.width / image.width;
     const vRatio = rect.height / image.height;
-    
+
     // Using Math.max for a full screen cover effect
-    const ratio = Math.max(hRatio, vRatio); 
-    
+    const ratio = Math.max(hRatio, vRatio);
+
     const centerShift_x = (rect.width - image.width * ratio) / 2;
     const centerShift_y = (rect.height - image.height * ratio) / 2;
-    
+
     context.drawImage(
       image,
       0,
@@ -175,52 +175,52 @@ export default function OrbSequence() {
         Once the sequence finishes, scrolling naturally resumes past this point.
       */}
       <div ref={containerRef} style={{ position: 'relative', width: '100%', height: '100vh', backgroundColor: '#C9A38C', overflow: 'hidden' }}>
-        <canvas 
-          ref={canvasRef} 
-          style={{ 
+        <canvas
+          ref={canvasRef}
+          style={{
             position: 'absolute',
             top: 0,
             left: 0,
-            width: '100%', 
-            height: '100%', 
+            width: '100%',
+            height: '100%',
             display: 'block',
             zIndex: 1
-          }} 
+          }}
         />
 
         {/* UI Overlay */}
-        <div 
+        <div
           ref={uiRef}
-          style={{ 
-          position: 'absolute', 
-          top: 0, 
-          left: 0, 
-          width: '100%', 
-          height: '100%', 
-          zIndex: 10, 
-          display: 'flex', 
-          flexDirection: 'column', 
-          justifyContent: 'space-between', 
-          padding: '2.5rem 3rem', 
-          boxSizing: 'border-box', 
-          pointerEvents: 'none', 
-          color: '#fff', 
-          fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' 
-        }}>
-          
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: 10,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            padding: '2.5rem 3rem',
+            boxSizing: 'border-box',
+            pointerEvents: 'none',
+            color: '#fff',
+            fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+          }}>
+
           <Header />
 
           {/* Bottom Layout (Hero Text + Footer) */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', pointerEvents: 'auto' }}>
-            
+
             {/* Hero Section Typography (Bottom-Left) */}
             <div style={{ textAlign: 'left' }}>
               <h1 style={{ margin: 0, fontSize: 'clamp(3.5rem, 8.5vw, 7rem)', fontWeight: 800, lineHeight: 0.9, letterSpacing: '-0.03em' }}>
                 <span style={{ color: '#fff', display: 'block' }}>We make</span>
-                <span style={{ 
-                  display: 'block', 
-                  background: 'linear-gradient(90deg, #FF7A00 0%, #FF2E93 100%)', 
-                  WebkitBackgroundClip: 'text', 
+                <span style={{
+                  display: 'block',
+                  background: 'linear-gradient(90deg, #FF7A00 0%, #FF2E93 100%)',
+                  WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
                   color: 'transparent'
@@ -230,24 +230,24 @@ export default function OrbSequence() {
 
             {/* Footer / Bottom Layout */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '24px' }}>
-              
+
               {/* Bottom-Left Button */}
               <div style={{ flex: '1 1 0', minWidth: '200px', textAlign: 'left' }}>
-                <button style={{ 
-                  padding: '14px 28px', 
-                  borderRadius: '999px', 
-                  backgroundColor: 'transparent', 
-                  color: '#fff', 
-                  border: '1px solid rgba(255, 255, 255, 0.6)', 
-                  cursor: 'pointer', 
-                  fontWeight: 600, 
-                  fontSize: '12px', 
-                  textTransform: 'uppercase', 
+                <button style={{
+                  padding: '14px 28px',
+                  borderRadius: '999px',
+                  backgroundColor: 'transparent',
+                  color: '#fff',
+                  border: '1px solid rgba(255, 255, 255, 0.6)',
+                  cursor: 'pointer',
+                  fontWeight: 600,
+                  fontSize: '12px',
+                  textTransform: 'uppercase',
                   letterSpacing: '0.08em',
                   transition: 'all 0.3s ease'
                 }}
-                onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#fff'; e.currentTarget.style.color = '#000'; }}
-                onMouseOut={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#fff'; }}
+                  onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#fff'; e.currentTarget.style.color = '#000'; }}
+                  onMouseOut={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#fff'; }}
                 >
                   Start your movement
                 </button>
@@ -255,25 +255,25 @@ export default function OrbSequence() {
 
               {/* Bottom-Center text */}
               <div style={{ flex: '1 1 0', display: 'flex', justifyContent: 'center', minWidth: '250px' }}>
-                <div style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  gap: '12px', 
-                  color: 'rgba(255, 255, 255, 0.6)', 
-                  fontSize: '11px', 
-                  fontWeight: 600, 
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  color: 'rgba(255, 255, 255, 0.6)',
+                  fontSize: '11px',
+                  fontWeight: 600,
                   letterSpacing: '0.15em',
                   textTransform: 'uppercase'
                 }}>
-                  HOLD THE 
-                  <span style={{ 
-                    width: '24px', 
-                    height: '24px', 
-                    borderRadius: '50%', 
-                    border: '1px solid rgba(255, 255, 255, 0.5)', 
-                    display: 'flex', 
-                    justifyContent: 'center', 
-                    alignItems: 'center' 
+                  HOLD THE
+                  <span style={{
+                    width: '24px',
+                    height: '24px',
+                    borderRadius: '50%',
+                    border: '1px solid rgba(255, 255, 255, 0.5)',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
                   }}>
                     <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'rgba(255, 255, 255, 0.9)' }} />
                   </span>
@@ -283,12 +283,12 @@ export default function OrbSequence() {
 
               {/* Bottom-Right Paragraph */}
               <div style={{ flex: '1 1 0', display: 'flex', justifyContent: 'flex-end', minWidth: '350px' }}>
-                <p style={{ 
+                <p style={{
                   margin: 0,
-                  textAlign: 'right', 
-                  color: 'rgba(255, 255, 255, 0.7)', 
-                  fontSize: '14px', 
-                  lineHeight: 1.6, 
+                  textAlign: 'right',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  fontSize: '14px',
+                  lineHeight: 1.6,
                   maxWidth: '480px',
                   fontWeight: 400
                 }}>

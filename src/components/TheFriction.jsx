@@ -122,13 +122,13 @@ export default function TheFriction() {
             <div style={{ fontSize: '2.8rem', fontWeight: 800, color: '#fff', marginBottom: '0.5rem', lineHeight: 1 }}>8s</div>
             <div style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.05em', color: 'rgba(255, 255, 255, 0.5)' }}>AVERAGE ATTENTION</div>
           </div>
-          
+
           {/* Stat 2 */}
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '2.8rem', fontWeight: 800, color: '#fff', marginBottom: '0.5rem', lineHeight: 1 }}>90%</div>
             <div style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.05em', color: 'rgba(255, 255, 255, 0.5)' }}>OF BRANDS BLEND IN</div>
           </div>
-          
+
           {/* Stat 3 */}
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '2.8rem', fontWeight: 800, color: '#fff', marginBottom: '0.5rem', lineHeight: 1 }}>1</div>
