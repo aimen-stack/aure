@@ -64,6 +64,7 @@ export default function HeroWater({
         end: "+=500%", // Pin for 5 viewport heights to add a long pause before unpinning
         pin: true,
         scrub: true,
+        refreshPriority: 4,
         onUpdate: (self) => {
           setProgress(self.progress);
           

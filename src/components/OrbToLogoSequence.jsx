@@ -98,6 +98,7 @@ export default function OrbToLogoSequence() {
           end: '+=400%', // Increased pin duration for the full sequence + text
           pin: true,
           scrub: true,
+          refreshPriority: 2,
         }
       });
 
@@ -136,6 +137,13 @@ export default function OrbToLogoSequence() {
         window.removeEventListener('resize', handleResize);
       };
     }, containerRef);
+
+    // Refresh ScrollTrigger to recalculate positions of elements below this one
+    // since we added a pin dynamically after images loaded
+    requestAnimationFrame(() => {
+      ScrollTrigger.sort();
+      ScrollTrigger.refresh();
+    });
 
     return () => ctx.revert();
   }, [isLoaded]);

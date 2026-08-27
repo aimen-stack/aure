@@ -138,6 +138,7 @@ export default function OrbSequence() {
           end: '+=400%', // Pin for 400vh for a smooth long scroll
           pin: true,
           scrub: true, // True linear mapping
+          refreshPriority: 3,
         }
       });
 
@@ -162,6 +163,12 @@ export default function OrbSequence() {
         window.removeEventListener('resize', handleResize);
       };
     }, containerRef); // Scope the GSAP context to the container
+
+    // Refresh ScrollTrigger to recalculate positions of elements below this one
+    requestAnimationFrame(() => {
+      ScrollTrigger.sort();
+      ScrollTrigger.refresh();
+    });
 
     return () => ctx.revert();
   }, [isLoaded]);
