@@ -3,15 +3,17 @@ import React from 'react';
 export default function Header() {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', pointerEvents: 'auto', width: '100%' }}>
-      {/* Top-Left: Glowing, multi-colored abstract gradient circle logo */}
-      <div style={{ 
-        width: '44px', 
-        height: '44px', 
-        borderRadius: '50%', 
-        background: 'conic-gradient(from 180deg at 50% 50%, #FF2E93 0deg, #FF8A00 120deg, #FFC700 240deg, #FF2E93 360deg)', 
-        boxShadow: '0 0 24px rgba(255, 46, 147, 0.5)',
-        cursor: 'pointer'
-      }} />
+      <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+        <img 
+          src="/logo.png" 
+          alt="AURE Logo" 
+          style={{
+            height: '44px',
+            width: 'auto',
+            objectFit: 'contain'
+          }}
+        />
+      </div>
       
       {/* Top-Right: Interactive pill elements */}
       <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
