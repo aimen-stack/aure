@@ -6,6 +6,7 @@ import CardsSequence from './components/CardsSequence';
 import DesignInMotion from './components/DesignInMotion';
 import ExplorationSequence from './components/ExplorationSequence';
 import MeetTheDisrupters from './components/MeetTheDisrupters';
+import PortfolioSection from './components/PortfolioSection';
 
 export default function LandingPage() {
   return (
@@ -66,6 +67,14 @@ export default function LandingPage() {
       */}
       <div style={{ position: 'relative', zIndex: 2 }}>
         <MeetTheDisrupters />
+      </div>
+
+      {/* 
+        The eighth section: Portfolio
+        This section fans out project cards in 3D on scroll.
+      */}
+      <div style={{ position: 'relative', zIndex: 2 }}>
+        <PortfolioSection />
       </div>
     </div>
   );
