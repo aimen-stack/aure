@@ -39,7 +39,7 @@ export default function PortfolioSection() {
         '/projects/market-square/image7.png',
         '/projects/market-square/image1.png',
         '/projects/market-square/image7.png',
-        '/projects/market-square/image2.png',
+        '/projects/market-square/image8.jpeg',
         '/projects/market-square/image3.png'
       ]
     },
@@ -62,10 +62,10 @@ export default function PortfolioSection() {
         '/projects/nobs/image2.png',
         '/projects/nobs/image3.png',
         '/projects/nobs/image4.png',
+        '/projects/nobs/image5.jpeg',
+        '/projects/nobs/image6.jpeg',
         '/projects/nobs/image7.png',
-        '/projects/nobs/image8.png',
-        '/projects/nobs/image1.png',
-        '/projects/nobs/image7.png'
+        '/projects/nobs/image8.png'
       ]
     },
     {
@@ -88,8 +88,8 @@ export default function PortfolioSection() {
         '/projects/tax-nerd/image4.png',
         '/projects/tax-nerd/image8.png',
         '/projects/tax-nerd/image1.png',
-        '/projects/tax-nerd/image2.png',
-        '/projects/tax-nerd/image3.png'
+        '/projects/tax-nerd/image7.png',
+        '/projects/tax-nerd/image8.png'
       ],
       theme: { bg: '#175342', cardBg: '#0f382a', titleColor: '#ffffff', subtitleColor: '#cccccc', textColor: '#ffffff', listColor: '#ffffff' }
     },
@@ -111,10 +111,10 @@ export default function PortfolioSection() {
         '/projects/grid/image2.png',
         '/projects/grid/image3.png',
         '/projects/grid/image4.png',
+        '/projects/grid/image5.jpeg',
+        '/projects/grid/image6.jpeg',
         '/projects/grid/image7.png',
-        '/projects/grid/image8.png',
-        '/projects/grid/image1.png',
-        '/projects/grid/image7.png'
+        '/projects/grid/image8.png'
       ],
       theme: { bg: '#062918', cardBg: '#051f12', titleColor: '#ffffff', subtitleColor: '#cccccc', textColor: '#ffffff', listColor: '#ffffff' }
     },

@@ -697,7 +697,7 @@ export default function ProjectDetails({
         )}
 
         {/* Extra Full-Width Image Sections */}
-        {images.length >= 8 && images[6] && images[7] && (
+        {images.length >= 8 && (
           <div style={{
             width: '100vw',
             position: 'relative',
@@ -711,15 +711,18 @@ export default function ProjectDetails({
             gap: '0', // Flush together
             marginTop: '15vh' // Space after the carousel
           }}>
-            {/* Top Extra Section (image7) */}
-            <div style={{ width: '100%' }}>
-              <img src={images[6]} alt="Extra Section 1" style={{ width: '100%', height: 'auto', display: 'block' }} draggable="false" />
-            </div>
-
-            {/* Bottom Extra Section (image8) */}
-            <div style={{ width: '100%' }}>
-              <img src={images[7]} alt="Extra Section 2" style={{ width: '100%', height: 'auto', display: 'block' }} draggable="false" />
-            </div>
+            <>
+              {images[6] && (
+                <div style={{ width: '100%' }}>
+                  <img src={images[6]} alt="Extra Section 1" style={{ width: '100%', height: 'auto', display: 'block' }} draggable="false" />
+                </div>
+              )}
+              {images[7] && (
+                <div style={{ width: '100%' }}>
+                  <img src={images[7]} alt="Extra Section 2" style={{ width: '100%', height: 'auto', display: 'block' }} draggable="false" />
+                </div>
+              )}
+            </>
           </div>
         )}
 
