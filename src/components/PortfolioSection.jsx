@@ -1,7 +1,8 @@
 import React, { useRef, useLayoutEffect, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import ProjectDetails from './ProjectDetails';
+import { Link, useNavigate } from 'react-router-dom';
+import { projectData } from '../data/projects';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,128 +13,8 @@ export default function PortfolioSection() {
   const textContentRef = useRef(null);
   const bgTextRef = useRef(null);
 
-  // We start with Grounded as the center card (index 2)
   const [activeIndex, setActiveIndex] = useState(2);
-  const [showDetails, setShowDetails] = useState(false);
-
-  const projectData = [
-    {
-      id: 'market-square',
-      src: '/projects/card3.png',
-      title: 'Market Square',
-      subtitle: 'The convenience store.',
-      quote: "The visual identity perfectly captured our convenience store.",
-      ceo: "DIRECTOR MARKET SQUARE",
-      desc: "How Market Square Transformed A Modern Canvas.",
-      textTop: <>Aure built <strong>Market Square</strong> from the ground up - developing its brand identity, logo, packaging, and kiosk design to create a cohesive visual experience from first impression to physical space.</>,
-      textBottom: <>Aure built <strong>Market Square</strong> from the ground up - developing its brand identity, logo, packaging, and kiosk design to create a cohesive visual experience from first impression to physical space.</>,
-      heroImage: '/projects/market-square/market-square-card.png',
-      logoImage: '/projects/market-square/market-square-logo.png',
-      services: ['BRAND BUILDING', 'LOGO DESIGN', 'PACKAGING', 'KIOSK DESIGN'],
-      theme: { bg: '#8C1C22', cardBg: '#B52F36', titleColor: '#fff', subtitleColor: '#fff', textColor: '#fff', listColor: '#fff' },
-      images: [
-        '/projects/market-square/image1.png',
-        '/projects/market-square/image2.png',
-        '/projects/market-square/image3.png',
-        '/projects/market-square/image4.png',
-        '/projects/market-square/image7.png',
-        '/projects/market-square/image1.png',
-        '/projects/market-square/image7.png',
-        '/projects/market-square/image8.jpeg',
-        '/projects/market-square/image3.png'
-      ]
-    },
-    {
-      id: 'nobs',
-      src: '/projects/card8.png',
-      title: 'nobs',
-      subtitle: 'The daily grind.',
-      quote: "Our brand now feels as bold and rich as our coffee.",
-      ceo: "FOUNDER NOBS",
-      desc: "Crafting a Boutique Coffee Brand from the Ground Up.",
-      textTop: <>Aure built <strong>nobs</strong> from the ground up - developing its brand identity, logo, packaging, and kiosk design to create a cohesive visual experience from first impression to physical space.</>,
-      textBottom: <>Aure built <strong>nobs</strong> from the ground up - developing its brand identity, logo, packaging, and kiosk design to create a cohesive visual experience from first impression to physical space.</>,
-      heroImage: '/projects/nobs/nobs-card.png',
-      logoImage: '/projects/nobs/nobs-logo.png',
-      services: ['BRAND BUILDING', 'LOGO DESIGN', 'PACKAGING', 'KIOSK DESIGN'],
-      theme: { bg: '#3a0808', cardBg: '#2a0505', titleColor: '#ebdcc6', subtitleColor: '#ebdcc6', textColor: '#ebdcc6', listColor: '#ebdcc6' },
-      images: [
-        '/projects/nobs/image1.png',
-        '/projects/nobs/image2.png',
-        '/projects/nobs/image3.png',
-        '/projects/nobs/image4.png',
-        '/projects/nobs/image5.jpeg',
-        '/projects/nobs/image6.jpeg',
-        '/projects/nobs/image7.png',
-        '/projects/nobs/image8.png'
-      ]
-    },
-    {
-      id: 'tax-nerd',
-      src: '/projects/card10.png',
-      title: 'Tax Nerd',
-      subtitle: 'Pakistan',
-      quote: "Our brand now feels as calculated and reliable as our service.",
-      ceo: "FOUNDER TAX NERD",
-      desc: "Crafting a Trustworthy Financial Brand from the Ground Up.",
-      textTop: <>Aure built <strong>Tax Nerd</strong> from the ground up - developing its brand identity, logo, packaging, and kiosk design to create a cohesive visual experience from first impression to physical space.</>,
-      textBottom: <>Aure built <strong>Tax Nerd</strong> from the ground up - developing its brand identity, logo, packaging, and kiosk design to create a cohesive visual experience from first impression to physical space.</>,
-      heroImage: '/projects/tax-nerd/tax-nerd-card.png',
-      logoImage: '/projects/tax-nerd/tax-nerd-logo.png',
-      services: ['BRAND BUILDING', 'LOGO DESIGN', 'PACKAGING', 'KIOSK DESIGN'],
-      images: [
-        '/projects/tax-nerd/image1.png',
-        '/projects/tax-nerd/image2.png',
-        '/projects/tax-nerd/image3.png',
-        '/projects/tax-nerd/image4.png',
-        '/projects/tax-nerd/image8.png',
-        '/projects/tax-nerd/image1.png',
-        '/projects/tax-nerd/image7.png',
-        '/projects/tax-nerd/image8.png'
-      ],
-      theme: { bg: '#175342', cardBg: '#0f382a', titleColor: '#ffffff', subtitleColor: '#cccccc', textColor: '#ffffff', listColor: '#ffffff' }
-    },
-    {
-      id: 'grid',
-      src: '/projects/card9.png',
-      title: 'Grid',
-      subtitle: 'Built not assembled.',
-      quote: "Our brand now feels as solid and structured as our approach.",
-      ceo: "FOUNDER GRID",
-      desc: "Crafting a Solid Brand Identity from the Ground Up.",
-      textTop: <>Aure built <strong>Grid</strong> from the ground up - developing its brand identity, logo, packaging, and kiosk design to create a cohesive visual experience from first impression to physical space.</>,
-      textBottom: <>Aure built <strong>Grid</strong> from the ground up - developing its brand identity, logo, packaging, and kiosk design to create a cohesive visual experience from first impression to physical space.</>,
-      heroImage: '/projects/grid/grid-card.png',
-      logoImage: '/projects/grid/grid-logo.png',
-      services: ['BRAND BUILDING', 'LOGO DESIGN', 'PACKAGING', 'KIOSK DESIGN'],
-      images: [
-        '/projects/grid/image1.png',
-        '/projects/grid/image2.png',
-        '/projects/grid/image3.png',
-        '/projects/grid/image4.png',
-        '/projects/grid/image5.jpeg',
-        '/projects/grid/image6.jpeg',
-        '/projects/grid/image7.png',
-        '/projects/grid/image8.png'
-      ],
-      theme: { bg: '#062918', cardBg: '#051f12', titleColor: '#ffffff', subtitleColor: '#cccccc', textColor: '#ffffff', listColor: '#ffffff' }
-    },
-    {
-      id: 'elevaid',
-      src: '/projects/card6.png',
-      title: 'Elevaid',
-      subtitle: 'Elevating the future of wellness.',
-      quote: "A masterful blend of tradition and modern aesthetics.",
-      ceo: "CREATIVE DIRECTOR",
-      desc: "Launching a Premium Wellness Line.",
-      textTop: <><strong>Aure</strong> shaped <strong>Elevaid's</strong> visual presence across social media, packaging, and branding building a cohesive identity that feels fresh, premium, and true to its brand experience.</>,
-      textBottom: <><strong>Aure</strong> shaped <strong>Elevaid's</strong> visual presence across social media, packaging, and branding building a cohesive identity that feels fresh, premium, and true to its brand experience.</>,
-      heroImage: '/projects/elevaid/elevaid-card.png',
-      logoImage: '/projects/elevaid/elevaid-logo.png',
-      services: ['BRAND BUILDING', 'LOGO DESIGN', 'PACKAGING', 'SOCIAL MEDIA'],
-      theme: { bg: '#000000', cardBg: '#000000', titleColor: '#ffffff', subtitleColor: '#aaaaaa', textColor: '#ffffff', listColor: '#ffffff' }
-    }
-  ];
+  const navigate = useNavigate();
 
   // Handle Swipe and Drag
   const touchStartX = useRef(0);
@@ -160,26 +41,7 @@ export default function PortfolioSection() {
   };
 
   const handleExploreClick = () => {
-    // Zoom in the cards container
-    gsap.to(containerRef.current, { scale: 5, opacity: 0, duration: 0.8, ease: "power3.inOut" });
-    // Fade out surrounding text
-    gsap.to([bgTextRef.current, textContentRef.current], { opacity: 0, duration: 0.4 });
-
-    // Wait for zoom animation to almost finish before showing details
-    setTimeout(() => {
-      setShowDetails(true);
-      // Disable body scroll when details are open
-      document.body.style.overflow = 'hidden';
-    }, 600);
-  };
-
-  const handleCloseDetails = () => {
-    setShowDetails(false);
-    document.body.style.overflow = '';
-
-    // Animate back to original state
-    gsap.to(containerRef.current, { scale: 1, opacity: 1, duration: 0.8, ease: "power3.inOut" });
-    gsap.to([bgTextRef.current, textContentRef.current], { opacity: 1, duration: 0.4, delay: 0.4 });
+    navigate('/portfolio-details', { state: { activeIndex } });
   };
 
   // Setup initial entrance animations
@@ -286,53 +148,6 @@ export default function PortfolioSection() {
 
   return (
     <>
-      {/* Full-screen Overlay for Project Details */}
-      {showDetails && (
-        <div id="details-scroll-container" style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          zIndex: 9999, // Super high to cover everything
-          overflowY: 'auto',
-          backgroundColor: activeData.theme?.bg || '#D9CFC1',
-          animation: 'fadeIn 0.4s ease forwards'
-        }}>
-          <ProjectDetails
-            title={activeData.title}
-            subtitle={activeData.subtitle}
-            heroSubtitle={activeData.heroSubtitle}
-            heroImage={activeData.heroImage}
-            logoImage={activeData.logoImage}
-            services={activeData.services}
-            theme={activeData.theme}
-            textTop={activeData.textTop}
-            textBottom={activeData.textBottom}
-            images={activeData.images || [
-              `/projects/${activeData.id}/image1.png`,
-              `/projects/${activeData.id}/image2.png`,
-              `/projects/${activeData.id}/image3.png`,
-              `/projects/${activeData.id}/image4.png`,
-              `/projects/${activeData.id}/image5.png`,
-              `/projects/${activeData.id}/image6.png`,
-              `/projects/${activeData.id}/image7.png`,
-              `/projects/${activeData.id}/image8.png`, // Extra section 1
-              `/projects/${activeData.id}/image9.png`  // Extra section 2
-            ]}
-            onClose={handleCloseDetails}
-            nextProject={{
-              title: projectData[(activeIndex + 1) % projectData.length].title,
-              image: `/projects/${projectData[(activeIndex + 1) % projectData.length].id}/image1.png`
-            }}
-            onNextProject={() => {
-              setActiveIndex((activeIndex + 1) % projectData.length);
-              const scroller = document.getElementById('details-scroll-container');
-              if (scroller) scroller.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-          />
-        </div>
-      )}
 
       {/* Main Portfolio Layout */}
       <div
@@ -430,7 +245,7 @@ export default function PortfolioSection() {
             alignItems: 'center',
             justifyContent: 'center',
             zIndex: 5,
-            margin: '4vh 0',
+            margin: '8vh 0 4vh 0',
             transformStyle: 'preserve-3d',
             cursor: 'grab'
           }}
@@ -542,7 +357,7 @@ export default function PortfolioSection() {
 
           {/* Right Info */}
           <div style={{ flex: '1', maxWidth: '320px', paddingLeft: '20px', pointerEvents: 'auto' }}>
-            <a href="#" onClick={(e) => { e.preventDefault(); handleExploreClick(); }} style={{
+            <Link to="/projects" style={{
               color: '#fff',
               textDecoration: 'none',
               display: 'flex',
@@ -557,7 +372,7 @@ export default function PortfolioSection() {
             }}>
               See All Project
               <span style={{ color: '#FF2E93', fontWeight: '300', fontSize: '1.2rem' }}>→</span>
-            </a>
+            </Link>
             <p style={{ fontSize: '1rem', color: '#e0e0e0', lineHeight: 1.5 }}>
               {activeData.desc}
             </p>

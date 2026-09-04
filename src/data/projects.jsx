@@ -1,0 +1,120 @@
+import React from 'react';
+
+export const projectData = [
+  {
+    id: 'market-square',
+    src: '/projects/card3.png',
+    title: 'Market Square',
+    subtitle: 'The convenience store.',
+    quote: "The visual identity perfectly captured our convenience store.",
+    ceo: "DIRECTOR MARKET SQUARE",
+    desc: "How Market Square Transformed A Modern Canvas.",
+    textTop: <>Aure built <strong>Market Square</strong> from the ground up - developing its brand identity, logo, packaging, and kiosk design to create a cohesive visual experience from first impression to physical space.</>,
+    textBottom: <>Aure built <strong>Market Square</strong> from the ground up - developing its brand identity, logo, packaging, and kiosk design to create a cohesive visual experience from first impression to physical space.</>,
+    heroImage: '/projects/market-square/market-square-card.png',
+    logoImage: '/projects/market-square/market-square-logo.png',
+    services: ['BRAND BUILDING', 'LOGO DESIGN', 'PACKAGING', 'KIOSK DESIGN'],
+    theme: { bg: '#8C1C22', cardBg: '#B52F36', titleColor: '#fff', subtitleColor: '#fff', textColor: '#fff', listColor: '#fff' },
+    images: [
+      '/projects/market-square/image1.png',
+      '/projects/market-square/image2.png',
+      '/projects/market-square/image3.png',
+      '/projects/market-square/image4.png',
+      '/projects/market-square/image7.png',
+      '/projects/market-square/image1.png',
+      '/projects/market-square/image7.png',
+      '/projects/market-square/image8.jpeg',
+      '/projects/market-square/image3.png'
+    ]
+  },
+  {
+    id: 'nobs',
+    src: '/projects/card8.png',
+    title: 'nobs',
+    subtitle: 'The daily grind.',
+    quote: "Our brand now feels as bold and rich as our coffee.",
+    ceo: "FOUNDER NOBS",
+    desc: "Crafting a Boutique Coffee Brand from the Ground Up.",
+    textTop: <>Aure built <strong>nobs</strong> from the ground up - developing its brand identity, logo, packaging, and kiosk design to create a cohesive visual experience from first impression to physical space.</>,
+    textBottom: <>Aure built <strong>nobs</strong> from the ground up - developing its brand identity, logo, packaging, and kiosk design to create a cohesive visual experience from first impression to physical space.</>,
+    heroImage: '/projects/nobs/nobs-card.png',
+    logoImage: '/projects/nobs/nobs-logo.png',
+    services: ['BRAND BUILDING', 'LOGO DESIGN', 'PACKAGING', 'KIOSK DESIGN'],
+    theme: { bg: '#3a0808', cardBg: '#2a0505', titleColor: '#ebdcc6', subtitleColor: '#ebdcc6', textColor: '#ebdcc6', listColor: '#ebdcc6' },
+    images: [
+      '/projects/nobs/image1.png',
+      '/projects/nobs/image2.png',
+      '/projects/nobs/image3.png',
+      '/projects/nobs/image4.png',
+      '/projects/nobs/image5.jpeg',
+      '/projects/nobs/image6.jpeg',
+      '/projects/nobs/image7.png',
+      '/projects/nobs/image8.png'
+    ]
+  },
+  {
+    id: 'tax-nerd',
+    src: '/projects/card10.png',
+    title: 'Tax Nerd',
+    subtitle: 'Pakistan',
+    quote: "Our brand now feels as calculated and reliable as our service.",
+    ceo: "FOUNDER TAX NERD",
+    desc: "Crafting a Trustworthy Financial Brand from the Ground Up.",
+    textTop: <>Aure built <strong>Tax Nerd</strong> from the ground up - developing its brand identity, logo, packaging, and kiosk design to create a cohesive visual experience from first impression to physical space.</>,
+    textBottom: <>Aure built <strong>Tax Nerd</strong> from the ground up - developing its brand identity, logo, packaging, and kiosk design to create a cohesive visual experience from first impression to physical space.</>,
+    heroImage: '/projects/tax-nerd/tax-nerd-card.png',
+    logoImage: '/projects/tax-nerd/tax-nerd-logo.png',
+    services: ['BRAND BUILDING', 'LOGO DESIGN', 'PACKAGING', 'KIOSK DESIGN'],
+    images: [
+      '/projects/tax-nerd/image1.png',
+      '/projects/tax-nerd/image2.png',
+      '/projects/tax-nerd/image3.png',
+      '/projects/tax-nerd/image4.png',
+      '/projects/tax-nerd/image8.png',
+      '/projects/tax-nerd/image1.png',
+      '/projects/tax-nerd/image7.png',
+      '/projects/tax-nerd/image8.png'
+    ],
+    theme: { bg: '#175342', cardBg: '#0f382a', titleColor: '#ffffff', subtitleColor: '#cccccc', textColor: '#ffffff', listColor: '#ffffff' }
+  },
+  {
+    id: 'grid',
+    src: '/projects/card9.png',
+    title: 'Grid',
+    subtitle: 'Built not assembled.',
+    quote: "Our brand now feels as solid and structured as our approach.",
+    ceo: "FOUNDER GRID",
+    desc: "Crafting a Solid Brand Identity from the Ground Up.",
+    textTop: <>Aure built <strong>Grid</strong> from the ground up - developing its brand identity, logo, packaging, and kiosk design to create a cohesive visual experience from first impression to physical space.</>,
+    textBottom: <>Aure built <strong>Grid</strong> from the ground up - developing its brand identity, logo, packaging, and kiosk design to create a cohesive visual experience from first impression to physical space.</>,
+    heroImage: '/projects/grid/grid-card.png',
+    logoImage: '/projects/grid/grid-logo.png',
+    services: ['BRAND BUILDING', 'LOGO DESIGN', 'PACKAGING', 'KIOSK DESIGN'],
+    images: [
+      '/projects/grid/image1.png',
+      '/projects/grid/image2.png',
+      '/projects/grid/image3.png',
+      '/projects/grid/image4.png',
+      '/projects/grid/image5.jpeg',
+      '/projects/grid/image6.jpeg',
+      '/projects/grid/image7.png',
+      '/projects/grid/image8.png'
+    ],
+    theme: { bg: '#062918', cardBg: '#051f12', titleColor: '#ffffff', subtitleColor: '#cccccc', textColor: '#ffffff', listColor: '#ffffff' }
+  },
+  {
+    id: 'elevaid',
+    src: '/projects/card6.png',
+    title: 'Elevaid',
+    subtitle: 'Elevating the future of wellness.',
+    quote: "A masterful blend of tradition and modern aesthetics.",
+    ceo: "CREATIVE DIRECTOR",
+    desc: "Launching a Premium Wellness Line.",
+    textTop: <><strong>Aure</strong> shaped <strong>Elevaid's</strong> visual presence across social media, packaging, and branding building a cohesive identity that feels fresh, premium, and true to its brand experience.</>,
+    textBottom: <><strong>Aure</strong> shaped <strong>Elevaid's</strong> visual presence across social media, packaging, and branding building a cohesive identity that feels fresh, premium, and true to its brand experience.</>,
+    heroImage: '/projects/elevaid/elevaid-card.png',
+    logoImage: '/projects/elevaid/elevaid-logo.png',
+    services: ['BRAND BUILDING', 'LOGO DESIGN', 'PACKAGING', 'SOCIAL MEDIA'],
+    theme: { bg: '#000000', cardBg: '#000000', titleColor: '#ffffff', subtitleColor: '#aaaaaa', textColor: '#ffffff', listColor: '#ffffff' }
+  }
+];

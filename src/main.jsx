@@ -12,6 +12,8 @@ import Test5 from './test/Test5.jsx'
 import WaterSplashEffect from './test/WaterSplashEffectt.jsx'
 import Aure from './test/Aure.jsx'
 import LandingPage from './LandingPage.jsx'
+import AllProjectsPage from './AllProjectsPage.jsx'
+import PortfolioDetailsPage from './PortfolioDetailsPage.jsx'
 
 
 createRoot(document.getElementById('root')).render(
@@ -28,6 +30,8 @@ createRoot(document.getElementById('root')).render(
         <Route path="/WaterSplashEffect" element={<WaterSplashEffect />} />
         <Route path="/Aure" element={<Aure />} />
         <Route path="/landing" element={<LandingPage />} />
+        <Route path="/projects" element={<AllProjectsPage />} />
+        <Route path="/portfolio-details" element={<PortfolioDetailsPage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
