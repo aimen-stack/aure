@@ -209,7 +209,7 @@ export default function ProjectDetails({
       width: '100%',
       minHeight: '100vh',
       position: 'relative',
-      padding: '12vh 5vw 8vh 5vw',
+      padding: '12vh 0 8vh 0',
       boxSizing: 'border-box',
       display: 'flex',
       flexDirection: 'column',
@@ -236,6 +236,8 @@ export default function ProjectDetails({
         display: 'flex',
         flexDirection: 'column',
         marginBottom: '8vh',
+        padding: '0 5vw',
+        boxSizing: 'border-box',
         zIndex: 2,
         minHeight: '80vh',
         justifyContent: 'center'
@@ -391,6 +393,8 @@ export default function ProjectDetails({
       <div style={{
         width: '100%',
         maxWidth: '1000px',
+        padding: '0 5vw',
+        boxSizing: 'border-box',
         display: 'flex',
         flexDirection: 'column',
         gap: '24px',
@@ -494,17 +498,15 @@ export default function ProjectDetails({
           {textBottom}
         </div>
 
-        {/* Vertical Scroll Carousel Section Wrapper */}
+      </div> {/* End of Grid Container */}
+
+      {/* Vertical Scroll Carousel Section Wrapper */}
         {images.length >= 7 && (
           <div
             ref={wrapperRef}
             style={{
-              width: '100vw',
+              width: '100%',
               position: 'relative',
-              left: '50%',
-              right: '50%',
-              marginLeft: '-50vw',
-              marginRight: '-50vw',
               marginTop: '10vh',
               height: `${carouselItems.length * 100}vh`, // Create physical scroll height for native sticky
               backgroundColor: theme.bg
@@ -699,12 +701,8 @@ export default function ProjectDetails({
         {/* Extra Full-Width Image Sections */}
         {images.length >= 8 && (
           <div style={{
-            width: '100vw',
+            width: '100%',
             position: 'relative',
-            left: '50%',
-            right: '50%',
-            marginLeft: '-50vw',
-            marginRight: '-50vw',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -729,12 +727,8 @@ export default function ProjectDetails({
         {/* Next Project Transition Section */}
         {nextProject && (
           <div style={{
-            width: '100vw',
+            width: '100%',
             position: 'relative',
-            left: '50%',
-            right: '50%',
-            marginLeft: '-50vw',
-            marginRight: '-50vw',
             marginTop: '0vh', // Flush with previous image
             display: 'flex',
             flexDirection: 'column'
@@ -969,8 +963,6 @@ export default function ProjectDetails({
             </div>
           </div>
         )}
-
-      </div>
     </div>
   );
 }
