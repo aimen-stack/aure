@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Header from './Header';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -27,6 +26,10 @@ export default function OrbSequence() {
       img.onload = () => {
         loadedCount++;
         setLoadingProgress(Math.round((loadedCount / totalFrames) * 100));
+        if (loadedCount === 1) {
+          // Immediately draw frame 0 so the canvas has the temple ready for crossfade
+          renderCanvas(0);
+        }
         if (loadedCount === totalFrames) {
           setIsLoaded(true);
           document.body.style.overflow = 'auto'; // Restore scroll
@@ -142,20 +145,24 @@ export default function OrbSequence() {
         }
       });
 
+      // Add a pause before playing so the user completely "scrolls onto" the section
+      const startDelay = 0.25;
+      const playDuration = 1 - startDelay;
+
+      // Animate frames smoothly across the scroll sequence
       tl.to(playhead, {
         frame: totalFrames - 1,
-        ease: 'none', // Linear progression without easing
-        duration: 1, // Base duration for the timeline
+        ease: 'none',
+        duration: playDuration,
         onUpdate: updateCanvas
-      }, 0);
+      }, startDelay);
 
-      // Fade in the UI overlay after the 100vh crossfade with HeroWater completes.
-      // 100vh out of 400vh is 25% of the timeline (0.25).
+      // Fade in the UI overlay when the animation begins
       if (uiRef.current) {
         tl.fromTo(uiRef.current,
           { opacity: 0 },
-          { opacity: 1, duration: 0.1, ease: 'none' },
-          0.25
+          { opacity: 1, duration: 0.12, ease: 'none' },
+          startDelay
         );
       }
 
@@ -215,7 +222,7 @@ export default function OrbSequence() {
             fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
           }}>
 
-          <Header />
+
 
           {/* Bottom Layout (Hero Text + Footer) */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', pointerEvents: 'auto' }}>

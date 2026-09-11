@@ -7,10 +7,16 @@ import DesignInMotion from './components/DesignInMotion';
 import ExplorationSequence from './components/ExplorationSequence';
 import MeetTheDisrupters from './components/MeetTheDisrupters';
 import PortfolioSection from './components/PortfolioSection';
+import Header from './components/Header';
 
 export default function LandingPage() {
   return (
     <div style={{ backgroundColor: '#C9A38C' }}>
+      {/* Global floating Header */}
+      <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', padding: '2.5rem 3rem', boxSizing: 'border-box', zIndex: 50, pointerEvents: 'none' }}>
+        <Header />
+      </div>
+
       {/* 
         The first section: the water reflection text.
         It has a relative height of 100vh, meaning you can scroll past it.
