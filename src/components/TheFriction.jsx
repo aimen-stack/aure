@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from './Header';
+import { useGSAP } from '@gsap/react';
 
 export default function TheFriction() {
   return (
@@ -52,7 +52,7 @@ export default function TheFriction() {
         boxSizing: 'border-box',
         zIndex: 10
       }}>
-        <Header />
+
       </div>
 
       {/* Main Content */}

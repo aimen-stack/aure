@@ -1,7 +1,7 @@
 import React, { useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Header from './Header';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -126,7 +126,7 @@ export default function MeetTheDisrupters() {
         pointerEvents: 'none'
       }}>
         <div style={{ pointerEvents: 'auto' }}>
-          <Header />
+
         </div>
       </div>
 

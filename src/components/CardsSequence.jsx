@@ -1,7 +1,7 @@
 import React, { useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Header from './Header';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -48,7 +48,7 @@ export default function CardsSequence() {
       style={{
         backgroundColor: '#FFFFFF',
         overflow: 'hidden',
-        height: '120vh', // Increased section length to prevent cropping
+        height: '100vh', 
         display: 'flex',
         flexDirection: 'column',
         position: 'relative',
@@ -66,13 +66,13 @@ export default function CardsSequence() {
         boxSizing: 'border-box',
         zIndex: 10
       }}>
-        <Header />
+
       </div>
 
       {/* Fixed Centered Text Content */}
       <div style={{
         textAlign: 'center',
-        paddingTop: '10vh', // Reduced top padding so there is more room at the bottom
+        paddingTop: '6vh', // Reduced top padding to leave more room for cards below
         flexShrink: 0,
         position: 'relative',
         zIndex: 5
@@ -89,7 +89,7 @@ export default function CardsSequence() {
         </div>
         <h2 style={{
           margin: 0,
-          fontSize: 'clamp(3.5rem, 7vw, 6.5rem)',
+          fontSize: 'clamp(2.5rem, min(6vw, 7vh), 6.5rem)',
           fontWeight: 800,
           lineHeight: 1.05,
           letterSpacing: '-0.04em',
@@ -106,8 +106,8 @@ export default function CardsSequence() {
           }}>movement</span> needs.
         </h2>
         <p style={{
-          margin: '2rem auto 0',
-          fontSize: '17px',
+          margin: '2vh auto 0',
+          fontSize: 'clamp(14px, 2vh, 17px)',
           color: '#777',
           fontWeight: 400,
           maxWidth: '500px'
@@ -129,7 +129,7 @@ export default function CardsSequence() {
             display: 'flex',
             gap: '2rem',
             padding: '0 5vw',
-            height: '55vh'
+            height: '45vh' // Reduced slightly to guarantee fit within 100vh
           }}
         >
           {cards.map((card, index) => (
