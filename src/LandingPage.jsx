@@ -46,8 +46,9 @@ export default function LandingPage() {
       {/* 
         The fourth section: The Horizontal Cards Sequence.
         This handles its own GSAP horizontal scroll pinning logic.
+        We pull it up by 100vh so it slides over the end of OrbToLogoSequence's pin.
       */}
-      <div style={{ position: 'relative', zIndex: 2 }}>
+      <div style={{ position: 'relative', zIndex: 2, marginTop: '-100vh' }}>
         <CardsSequence />
       </div>
 
@@ -63,9 +64,9 @@ export default function LandingPage() {
         The sixth section: Exploration Sequence
         This is a horizontal scrolling section with a glowing orb background and cards.
       */}
-      <div style={{ position: 'relative', zIndex: 2 }}>
+      {/* <div style={{ position: 'relative', zIndex: 2 }}>
         <ExplorationSequence />
-      </div>
+      </div> */}
 
       {/* 
         The seventh section: Meet the Disrupters

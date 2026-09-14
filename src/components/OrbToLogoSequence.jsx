@@ -138,8 +138,8 @@ export default function OrbToLogoSequence() {
 
       // Initialize initial states for the sequential animations
       if (whisperRef.current) gsap.set(whisperRef.current, { filter: 'blur(12px)', opacity: 0.4 });
-      if (paragraphRef.current) gsap.set(paragraphRef.current, { opacity: 0, y: 20 });
-      if (statsRef.current) gsap.set(statsRef.current, { opacity: 0, y: 30 });
+      if (paragraphRef.current) gsap.set(paragraphRef.current, { filter: 'blur(12px)', opacity: 0.4, y: 20 });
+      if (statsRef.current) gsap.set(statsRef.current, { filter: 'blur(12px)', opacity: 0.4, y: 30 });
 
       // 4. Unblur "whispering"
       if (whisperRef.current) {
@@ -148,13 +148,13 @@ export default function OrbToLogoSequence() {
 
       // 5. Show paragraph
       if (paragraphRef.current) {
-        tl.to(paragraphRef.current, { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }, "+=0.2");
+        tl.to(paragraphRef.current, { filter: 'blur(0px)', opacity: 1, y: 0, duration: 1, ease: 'power2.out' }, "+=0.2");
       }
 
       // 6. Show stats and pan content up slightly to ensure they are visible on shorter screens
       if (statsRef.current && frictionRef.current) {
         tl.to(frictionRef.current, { y: '-15vh', duration: 1, ease: 'power2.out' }, "+=0.2");
-        tl.to(statsRef.current, { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }, "<");
+        tl.to(statsRef.current, { filter: 'blur(0px)', opacity: 1, y: 0, duration: 1, ease: 'power2.out' }, "<");
       }
 
       return () => {
