@@ -9,12 +9,13 @@ export default function MeetTheDisrupters() {
   const sectionRef = useRef(null);
   const mainTextRef = useRef(null);
   const subTextRef = useRef(null);
+  const persistentTextRef = useRef(null);
   const cardsRef = useRef([]);
 
   const team = [
-    { src: '/team/faisal.png', name: 'Faisal', role: 'Strategist', top: '40%', left: '20%', rot: -6 },
-    { src: '/team/Eiraj.png', name: 'Eiraj Munis', role: 'Animator', top: '65%', left: '50%', rot: 3 },
-    { src: '/team/aimen.png', name: 'Aimen', role: 'Engineer', top: '30%', left: '80%', rot: 8 }
+    { src: '/team/faisal.png', name: 'Faisal Munir', role: 'Strategist', top: '35%', left: '35%', rot: -6 },
+    { src: '/team/aimen.png', name: 'Aimen', role: 'Engineer', top: '65%', left: '45%', rot: -2 },
+    { src: '/team/Eiraj.png', name: 'Eiraj Munis', role: 'Animator', top: '45%', left: '80%', rot: 4 }
   ];
 
   useLayoutEffect(() => {
@@ -33,6 +34,7 @@ export default function MeetTheDisrupters() {
       // Initialize positions and states with GSAP
       gsap.set(mainTextRef.current, { opacity: 0, scale: 0.8, xPercent: -50, yPercent: -50, x: '50vw', filter: 'blur(20px)' });
       gsap.set(subTextRef.current, { opacity: 0, scale: 0.8, xPercent: -50, yPercent: -50, x: '50vw', filter: 'blur(20px)' });
+      gsap.set(persistentTextRef.current, { opacity: 0, x: '-50vw', filter: 'blur(10px)' });
 
       cardsRef.current.forEach((card, i) => {
         gsap.set(card, {
@@ -61,33 +63,52 @@ export default function MeetTheDisrupters() {
       // 4. When mainText is half hidden (i.e. at moveMainOut + 2), subText starts hiding towards the left.
       tl.to(subTextRef.current, { x: '-60vw', opacity: 0, filter: 'blur(10px)', duration: 3, ease: 'power2.inOut' }, "moveMainOut+=2");
 
-      // 5. Cards pop in simultaneously, scattered, but blurred
-      tl.to(cardsRef.current, { opacity: 1, scale: 0.9, duration: 1.5 }, "moveMainOut+=4");
+      // 4.5. Persistent text animates in from left when cards appear
+      tl.to(persistentTextRef.current, { x: 0, opacity: 1, filter: 'blur(0px)', duration: 2, ease: 'power2.out' }, "moveMainOut+=3.5");
+
+      // 5. Cards pop in simultaneously, scattered, but slightly blurred
+      tl.to(cardsRef.current, { opacity: 0.6, scale: 0.65, filter: 'blur(3px)', duration: 2 }, "moveMainOut+=3.5");
 
       // 6. Highlight cards one by one
       cardsRef.current.forEach((card, i) => {
+        const startTime = i === 0 ? "moveMainOut+=4.5" : `cardFocus${i}`;
+        
+        // Random drift values for vertical/horizontal movement
+        const driftX = (Math.random() - 0.5) * 40;
+        const driftY = (Math.random() - 0.5) * 40;
 
         // Bring card into focus
         tl.to(card, {
           filter: 'blur(0px)',
+          opacity: 1,
           scale: 1.1,
-          rotation: team[i].rot * 1.5, // Emphasize rotation when highlighted
-          zIndex: 20, // Bring to front
-          duration: 1.5
-        });
+          xPercent: -50 + driftX,
+          yPercent: -50 + driftY,
+          rotation: team[i].rot * 1.5,
+          zIndex: 20,
+          duration: 3,
+          ease: 'power1.inOut'
+        }, startTime);
 
         // Hold focus
-        tl.to({}, { duration: 1.5 });
+        const holdTime = `cardHold${i}`;
+        tl.addLabel(holdTime, "+=1.5");
 
         // Blur card out as the next one prepares (except the very last one, which stays clear for a bit)
         if (i < cardsRef.current.length - 1) {
           tl.to(card, {
-            filter: 'blur(10px)',
-            scale: 0.9,
+            filter: 'blur(3px)',
+            opacity: 0.6,
+            scale: 0.65,
+            xPercent: -50 - (driftX * 0.3),
+            yPercent: -50 - (driftY * 0.3),
             rotation: team[i].rot,
             zIndex: 10,
-            duration: 1.5
-          }, "+=0");
+            duration: 3,
+            ease: 'power1.inOut'
+          }, holdTime);
+          
+          tl.addLabel(`cardFocus${i + 1}`, holdTime);
         }
       });
 
@@ -207,6 +228,33 @@ export default function MeetTheDisrupters() {
           fontWeight: 500
         }}>
           Strategists, animators, engineers and troublemakers under one roof.
+        </p>
+      </div>
+
+      {/* Persistent Text for Cards Section */}
+      <div
+        ref={persistentTextRef}
+        style={{
+          position: 'absolute',
+          top: '20%',
+          left: '10%',
+          width: '30%',
+          minWidth: '300px',
+          color: '#fff',
+          zIndex: 5,
+          textAlign: 'left'
+        }}
+      >
+        <p style={{
+          fontSize: 'clamp(1.2rem, 1.8vw, 1.6rem)',
+          color: 'rgba(255,255,255,0.9)',
+          lineHeight: 1.4,
+          fontWeight: 400,
+          margin: 0
+        }}>
+          Strategists, animators,<br />
+          engineers and troublemakers<br />
+          under one roof.
         </p>
       </div>
 

@@ -63,9 +63,9 @@ export default function LandingPage() {
         The sixth section: Exploration Sequence
         This is a horizontal scrolling section with a glowing orb background and cards.
       */}
-      <div style={{ position: 'relative', zIndex: 2 }}>
+      {/* <div style={{ position: 'relative', zIndex: 2 }}>
         <ExplorationSequence />
-      </div>
+      </div> */}
 
       {/* 
         The seventh section: Meet the Disrupters
