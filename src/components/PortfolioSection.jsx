@@ -40,6 +40,20 @@ export default function PortfolioSection() {
     }
   };
 
+  const wheelTimeout = useRef(null);
+  const handleWheel = (e) => {
+    if (wheelTimeout.current) return;
+    
+    const threshold = 30;
+    if (e.deltaY > threshold || e.deltaX > threshold) {
+      setActiveIndex(prev => Math.min(prev + 1, projectData.length - 1));
+      wheelTimeout.current = setTimeout(() => { wheelTimeout.current = null }, 800);
+    } else if (e.deltaY < -threshold || e.deltaX < -threshold) {
+      setActiveIndex(prev => Math.max(prev - 1, 0));
+      wheelTimeout.current = setTimeout(() => { wheelTimeout.current = null }, 800);
+    }
+  };
+
   const handleExploreClick = () => {
     navigate('/portfolio-details', { state: { activeIndex } });
   };
@@ -172,6 +186,7 @@ export default function PortfolioSection() {
         onPointerLeave={handlePointerUp}
         onTouchStart={handlePointerDown}
         onTouchEnd={handlePointerUp}
+        onWheel={handleWheel}
       >
         {/* Dynamic Background Glow */}
         <div style={{
