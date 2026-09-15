@@ -11,6 +11,7 @@ export default function MeetTheDisrupters() {
   const subTextRef = useRef(null);
   const persistentTextRef = useRef(null);
   const cardsRef = useRef([]);
+  const orbRef = useRef(null);
 
   const team = [
     { src: '/team/faisal.png', name: 'Faisal Munir', role: 'Strategist', top: '35%', left: '35%', rot: -6 },
@@ -32,14 +33,15 @@ export default function MeetTheDisrupters() {
       });
 
       // Initialize positions and states with GSAP
-      gsap.set(mainTextRef.current, { opacity: 0, scale: 0.8, xPercent: -50, yPercent: -50, x: '50vw', filter: 'blur(20px)' });
-      gsap.set(subTextRef.current, { opacity: 0, scale: 0.8, xPercent: -50, yPercent: -50, x: '50vw', filter: 'blur(20px)' });
-      gsap.set(persistentTextRef.current, { opacity: 0, x: '-50vw', filter: 'blur(10px)' });
+      gsap.set(mainTextRef.current, { opacity: 0, scale: 0.8, xPercent: -50, yPercent: -50, y: '100vh', filter: 'blur(20px)' });
+      gsap.set(subTextRef.current, { opacity: 0, scale: 0.8, xPercent: -50, yPercent: -50, y: '100vh', filter: 'blur(20px)' });
+      gsap.set(persistentTextRef.current, { opacity: 0, y: '100vh', filter: 'blur(10px)' });
 
       cardsRef.current.forEach((card, i) => {
         gsap.set(card, {
           opacity: 0,
-          scale: 0.2,
+          scale: 0.6,
+          y: '100vh', // Starts completely off-screen at the bottom
           filter: 'blur(15px)',
           xPercent: -50,
           yPercent: -50,
@@ -48,68 +50,71 @@ export default function MeetTheDisrupters() {
         });
       });
 
-      // 1. mainText animates in from right (blurry to clear)
-      tl.to(mainTextRef.current, { x: 0, opacity: 1, filter: 'blur(0px)', scale: 1, duration: 2, ease: 'power2.out' });
+      // Animate background orb slowly throughout the entire pinned section
+      tl.to(orbRef.current, {
+        y: '-40vh',
+        x: '-10vw',
+        rotation: 30,
+        scale: 1.2,
+        duration: 25,
+        ease: 'none'
+      }, 0);
 
-      // Keep text for a tiny bit
-      tl.to({}, { duration: 1 });
+      // 1. mainText animates from bottom to center
+      tl.to(mainTextRef.current, { y: 0, opacity: 1, filter: 'blur(0px)', scale: 1, duration: 2, ease: 'power2.out' }, 0); 
+      // hold in center, then exit to left
+      tl.to(mainTextRef.current, { x: '-60vw', opacity: 0, filter: 'blur(10px)', duration: 4, ease: 'power2.inOut' }, 2); 
 
-      // 2. mainText animates out left (Duration is 4, so halfway is +2)
-      tl.to(mainTextRef.current, { x: '-60vw', opacity: 0, filter: 'blur(10px)', duration: 4, ease: 'power2.inOut' }, "moveMainOut");
+      // 2. subText enters from bottom to center while mainText moves left
+      tl.to(subTextRef.current, { y: 0, opacity: 1, filter: 'blur(0px)', scale: 1, duration: 2, ease: 'power2.out' }, 2.5);
+      // hold in center, then exit to left
+      tl.to(subTextRef.current, { x: '-60vw', opacity: 0, filter: 'blur(10px)', duration: 3, ease: 'power2.inOut' }, 4.5);
 
-      // 3. subText animates in from right. It shows up IN BETWEEN mainText moving left.
-      tl.to(subTextRef.current, { x: 0, opacity: 1, filter: 'blur(0px)', scale: 1, duration: 2, ease: 'power2.out' }, "moveMainOut+=0.5");
+      // 3. Persistent text enters as cards enter
+      tl.to(persistentTextRef.current, { y: 0, opacity: 1, filter: 'blur(0px)', duration: 2, ease: 'power2.out' }, 7);
 
-      // 4. When mainText is half hidden (i.e. at moveMainOut + 2), subText starts hiding towards the left.
-      tl.to(subTextRef.current, { x: '-60vw', opacity: 0, filter: 'blur(10px)', duration: 3, ease: 'power2.inOut' }, "moveMainOut+=2");
-
-      // 4.5. Persistent text animates in from left when cards appear
-      tl.to(persistentTextRef.current, { x: 0, opacity: 1, filter: 'blur(0px)', duration: 2, ease: 'power2.out' }, "moveMainOut+=3.5");
-
-      // 5. Cards pop in simultaneously, scattered, but slightly blurred
-      tl.to(cardsRef.current, { opacity: 0.6, scale: 0.65, filter: 'blur(3px)', duration: 2 }, "moveMainOut+=3.5");
-
-      // 6. Highlight cards one by one
+      // 4. Cards continuously move up from 100vh to -100vh
       cardsRef.current.forEach((card, i) => {
-        const startTime = i === 0 ? "moveMainOut+=4.5" : `cardFocus${i}`;
+        const startTime = 8 + (i * 4); // staggered by 4
         
-        // Random drift values for vertical/horizontal movement
-        const driftX = (Math.random() - 0.5) * 40;
-        const driftY = (Math.random() - 0.5) * 40;
+        const driftX = (Math.random() - 0.5) * 20;
+        const driftY = (Math.random() - 0.5) * 20;
 
-        // Bring card into focus
+        // Continuous upward motion spanning 8 duration units
+        tl.to(card, {
+          y: '-100vh',
+          xPercent: -50 + driftX,
+          yPercent: -50 + driftY,
+          duration: 8,
+          ease: 'none'
+        }, startTime);
+
+        // Fade in and scale to normal
         tl.to(card, {
           filter: 'blur(0px)',
           opacity: 1,
-          scale: 1.1,
-          xPercent: -50 + driftX,
-          yPercent: -50 + driftY,
+          scale: 1,
           rotation: team[i].rot * 1.5,
           zIndex: 20,
-          duration: 3,
-          ease: 'power1.inOut'
+          duration: 2.5,
+          ease: 'power2.out'
         }, startTime);
 
-        // Hold focus
-        const holdTime = `cardHold${i}`;
-        tl.addLabel(holdTime, "+=1.5");
+        // Start blurring exactly as it crosses the center (startTime + 4.0)
+        tl.to(card, {
+          filter: 'blur(15px)', // slightly stronger blur for visibility
+          duration: 2,
+          ease: 'none' // linear so it starts blurring immediately
+        }, startTime + 4.0);
 
-        // Blur card out as the next one prepares (except the very last one, which stays clear for a bit)
-        if (i < cardsRef.current.length - 1) {
-          tl.to(card, {
-            filter: 'blur(3px)',
-            opacity: 0.6,
-            scale: 0.65,
-            xPercent: -50 - (driftX * 0.3),
-            yPercent: -50 - (driftY * 0.3),
-            rotation: team[i].rot,
-            zIndex: 10,
-            duration: 3,
-            ease: 'power1.inOut'
-          }, holdTime);
-          
-          tl.addLabel(`cardFocus${i + 1}`, holdTime);
-        }
+        // Fade out completely as it exits
+        tl.to(card, {
+          opacity: 0,
+          scale: 0.8,
+          rotation: team[i].rot,
+          duration: 2.5,
+          ease: 'power2.in'
+        }, startTime + 5.5);
       });
 
     }, sectionRef);
@@ -153,7 +158,8 @@ export default function MeetTheDisrupters() {
 
       {/* Background Orb - subtle and dark */}
       <img
-        src="/orbimages/ezgif-frame-001.png"
+        ref={orbRef}
+        src="/orb.png"
         alt="Dark Orb"
         style={{
           position: 'absolute',
@@ -162,8 +168,7 @@ export default function MeetTheDisrupters() {
           transform: 'translate(-50%, -50%)',
           width: '100%',
           minWidth: '800px',
-          opacity: 0.3,
-          filter: 'hue-rotate(280deg) saturate(2) blur(30px)',
+          opacity: 0.4,
           pointerEvents: 'none',
           mixBlendMode: 'screen',
           zIndex: 1
