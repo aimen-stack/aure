@@ -49,7 +49,15 @@ export default function ProjectDetails({
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const carouselItems = [
+  const carouselItems = title === 'Chaye Khana' ? [
+    { title: "", desc: "" },
+    { title: "Social Media", desc: "Refined wordmark designed to capture Lavender’s soft, elegant character while creating a distinctive and memorable brand signature." },
+    { title: "", desc: "" }
+  ] : title === 'Healthcare' ? [
+    { title: "Beacon Lab", desc: "" },
+    { title: "Cascadia", desc: "We engineered an accessible healthcare website organized around specialized care services, organizational pillars, and resident-focused stories. We also implemented a responsive nationwide location-mapping module to help users easily locate regional care centers." },
+    { title: <>Vita cure<br/>Serence path<br/>Bright smiles</>, desc: "" }
+  ] : [
     { title: "Branding", desc: "" },
     { title: "Logo", desc: "Refined wordmark designed to capture Lavender’s soft, elegant character while creating a distinctive and memorable brand signature." },
     { title: "Kiosk", desc: "" }
@@ -205,7 +213,7 @@ export default function ProjectDetails({
 
   return (
     <div ref={rootRef} style={{
-      backgroundColor: theme.bg,
+      background: theme.bg,
       width: '100%',
       minHeight: '100vh',
       position: 'relative',
@@ -244,7 +252,7 @@ export default function ProjectDetails({
       }}>
 
         {/* Top Logo if provided */}
-        {logoImage && (
+        {logoImage && title !== 'Formations Lounge' && title !== 'Chaye Khana' && title !== 'Healthcare' && (
           <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '4vh' }}>
             <img src={logoImage} alt={title} style={{ maxWidth: '400px', height: 'auto', objectFit: 'contain' }} />
           </div>
@@ -305,17 +313,22 @@ export default function ProjectDetails({
             {/* Title / Logo text */}
             {!logoImage && (
               <h1 style={{
-                 fontSize: 'clamp(3rem, 5vw, 5rem)',
-                 fontWeight: 900, 
-                 color: theme.titleColor || theme.cardBg, 
-                 margin: '0 0 24px 0',
-                 fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                 lineHeight: 1,
-                 textTransform: 'uppercase',
-                 letterSpacing: '-0.02em'
+                fontSize: 'clamp(3rem, 5vw, 5rem)',
+                fontWeight: 900,
+                color: theme.titleColor || theme.cardBg,
+                margin: '0 0 24px 0',
+                fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                lineHeight: 1,
+                textTransform: 'uppercase',
+                letterSpacing: '-0.02em'
               }}>
-                 {title}
+                {title}
               </h1>
+            )}
+
+            {/* Formations Lounge, Chaye Khana & Healthcare Logo in Left Column */}
+            {logoImage && (title === 'Formations Lounge' || title === 'Chaye Khana' || title === 'Healthcare') && (
+              <img src={logoImage} alt={`${title} Logo`} style={{ maxWidth: '100%', height: 'auto', maxHeight: '100px', objectFit: 'contain', marginBottom: '32px' }} draggable="false" />
             )}
 
             {/* Services List */}
@@ -324,13 +337,13 @@ export default function ProjectDetails({
                 listStyleType: 'none',
                 padding: 0,
                 margin: 0,
-                color: theme.listColor || theme.cardBg, 
+                color: theme.listColor || theme.cardBg,
                 fontSize: '1rem',
                 fontWeight: 700,
                 letterSpacing: '0.05em',
                 lineHeight: 2
               }}>
-                {services.map(s => <li key={s} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{fontSize: '1.2rem'}}>•</span> {s}</li>)}
+                {services.map(s => <li key={s} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ fontSize: '1.2rem' }}>•</span> {s}</li>)}
               </ul>
             )}
           </div>
@@ -344,25 +357,25 @@ export default function ProjectDetails({
             position: 'relative'
           }}>
             {heroImage && (
-              <img src={heroImage} alt="Hero" style={{ 
-                 maxWidth: '90%', 
-                 height: 'auto',
-                 maxHeight: '75vh', 
-                 objectFit: 'contain',
-                 filter: 'drop-shadow(0 30px 40px rgba(0,0,0,0.2))'
+              <img src={heroImage} alt="Hero" style={{
+                maxWidth: '90%',
+                height: 'auto',
+                maxHeight: '75vh',
+                objectFit: 'contain',
+                filter: 'drop-shadow(0 30px 40px rgba(0,0,0,0.2))'
               }} draggable="false" />
             )}
           </div>
         </div>
 
         {/* Huge Title Below - spans across both columns at the bottom */}
-        {title !== 'Market Square' && (
-          <div style={{ 
+        {title !== 'Market Square' && title !== 'Tax Nerd' && title !== 'Chaye Khana' && (
+          <div style={{
             position: 'relative',
             marginTop: '8vh',
             width: '100%',
-            textAlign: 'center', 
-            zIndex: 1, 
+            textAlign: 'center',
+            zIndex: 1,
             pointerEvents: 'none',
             display: 'flex',
             flexDirection: 'column',
@@ -378,7 +391,7 @@ export default function ProjectDetails({
               lineHeight: 0.75,
               letterSpacing: '-0.04em',
               opacity: 0.9,
-              filter: 'blur(3px)', 
+              filter: 'blur(3px)',
               textTransform: 'capitalize',
               whiteSpace: 'nowrap',
               marginBottom: '4vh'
@@ -420,9 +433,9 @@ export default function ProjectDetails({
           }}>
             {/* Text Card Top */}
             <div style={{
-              backgroundColor: theme.cardBg,
+              backgroundColor: title === 'Tax Nerd' ? 'transparent' : theme.cardBg,
               color: theme.textColor,
-              padding: '36px',
+              padding: title === 'Tax Nerd' ? '0 0 24px 0' : '36px',
               borderRadius: '24px',
               fontSize: '1.1rem',
               lineHeight: 1.6,
@@ -437,14 +450,13 @@ export default function ProjectDetails({
               borderRadius: '24px',
               overflow: 'hidden',
               minHeight: '350px',
-              ...(title === 'Elevaid' ? { backgroundColor: '#fff', padding: '24px', boxSizing: 'border-box' } : {}),
-              ...(title === 'Tax Nerd' ? { backgroundColor: '#1B452A', padding: '24px', boxSizing: 'border-box' } : {})
+              ...(title === 'Elevaid' ? { backgroundColor: '#fff', padding: '24px', boxSizing: 'border-box' } : {})
             }}>
-              <img src={images[0]} alt="Project visual" style={{ 
-                width: '100%', 
-                height: '100%', 
-                objectFit: title === 'Tax Nerd' ? 'contain' : 'cover', 
-                borderRadius: title === 'Elevaid' ? '12px' : '0' 
+              <img src={images[0]} alt="Project visual" style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                borderRadius: title === 'Elevaid' ? '12px' : '0'
               }} draggable="false" />
             </div>
           </div>
@@ -471,13 +483,12 @@ export default function ProjectDetails({
               flex: 1,
               borderRadius: '24px',
               overflow: 'hidden',
-              minHeight: '220px',
-              ...(title === 'Tax Nerd' ? { background: 'radial-gradient(circle, #00FFC3 0%, #09A782 100%)', padding: '24px', boxSizing: 'border-box' } : {})
+              minHeight: '220px'
             }}>
-              <img src={images[2]} alt="Project visual" style={{ 
-                width: '100%', 
-                height: '100%', 
-                objectFit: title === 'Tax Nerd' ? 'contain' : 'cover' 
+              <img src={images[2]} alt="Project visual" style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover'
               }} draggable="false" />
             </div>
           </div>
@@ -486,9 +497,9 @@ export default function ProjectDetails({
 
         {/* Bottom Full-Width Text Card */}
         <div style={{
-          backgroundColor: theme.cardBg,
+          backgroundColor: title === 'Tax Nerd' ? 'transparent' : theme.cardBg,
           color: theme.textColor,
-          padding: '36px 40px',
+          padding: title === 'Tax Nerd' ? '24px 0 0 0' : '36px 40px',
           borderRadius: '24px',
           fontSize: '1.1rem',
           lineHeight: 1.6,
@@ -501,468 +512,470 @@ export default function ProjectDetails({
       </div> {/* End of Grid Container */}
 
       {/* Vertical Scroll Carousel Section Wrapper */}
-        {images.length >= 7 && (
+      {images.length >= 7 && (
+        <div
+          ref={wrapperRef}
+          style={{
+            width: '100%',
+            position: 'relative',
+            marginTop: '10vh',
+            height: `${carouselItems.length * 100}vh`, // Create physical scroll height for native sticky
+            background: theme.bg
+          }}>
           <div
-            ref={wrapperRef}
+            ref={sectionRef}
             style={{
-              width: '100%',
-              position: 'relative',
-              marginTop: '10vh',
-              height: `${carouselItems.length * 100}vh`, // Create physical scroll height for native sticky
-              backgroundColor: theme.bg
-            }}>
-            <div
-              ref={sectionRef}
-              style={{
-                width: '100%', // Take full width of the wrapper
-                height: '100vh',
-                position: 'sticky', // NATIVE BROWSER STICKY! Eliminates ALL scroll jitter!
-                top: 0,
-                display: 'flex',
-                overflow: 'hidden',
-                backgroundColor: theme.bg
-              }}
-            >
-              {/* Background Glow */}
-              <div style={{
-                position: 'absolute',
-                top: '50%',
-                right: '-10%',
-                transform: 'translateY(-50%)',
-                width: '600px',
-                height: '600px',
-                borderRadius: '50%',
-                background: 'radial-gradient(circle, rgba(255, 230, 240, 0.8) 0%, rgba(255, 200, 220, 0.2) 50%, transparent 70%)',
-                filter: 'blur(40px)',
-                pointerEvents: 'none',
-                zIndex: 0
-              }} />
+              width: '100%', // Take full width of the wrapper
+              height: '100vh',
+              position: 'sticky', // NATIVE BROWSER STICKY! Eliminates ALL scroll jitter!
+              top: 0,
+              display: 'flex',
+              overflow: 'hidden',
+              background: theme.bg
+            }}
+          >
+            {/* Background Glow */}
+            <div style={{
+              position: 'absolute',
+              top: '50%',
+              right: '-10%',
+              transform: 'translateY(-50%)',
+              width: '600px',
+              height: '600px',
+              borderRadius: '50%',
+              background: 'radial-gradient(circle, rgba(255, 230, 240, 0.8) 0%, rgba(255, 200, 220, 0.2) 50%, transparent 70%)',
+              filter: 'blur(40px)',
+              pointerEvents: 'none',
+              zIndex: 0
+            }} />
 
-              {/* Left Column - Images */}
-              <div style={{
-                flex: 1,
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                zIndex: 2,
-                perspective: '1200px'
-              }}>
-                {carouselItems.map((_, i) => (
+            {/* Left Column - Images */}
+            <div style={{
+              flex: 1,
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 2,
+              perspective: '1200px'
+            }}>
+              {carouselItems.map((_, i) => (
+                <div
+                  key={`img-${i}`}
+                  ref={el => imagesRef.current[i] = el}
+                  style={{
+                    position: 'absolute',
+                    width: '380px',
+                    aspectRatio: '1',
+                    borderRadius: '24px',
+                    boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
+                    transition: 'padding 0.3s, background 0.3s',
+                    cursor: 'grab'
+                  }}
+                  onClick={() => navigate(null, i)}
+                >
+                  <div className="img-inner" style={{
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: '20px',
+                    overflow: 'hidden',
+                    backgroundColor: '#000',
+                    // Prevent backface or sub-pixel 3D rendering glitches
+                    WebkitTransform: 'translateZ(0)',
+                    backfaceVisibility: 'hidden'
+                  }}>
+                    <img
+                      src={images[3 + i]}
+                      alt={`Visual ${i}`}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      draggable="false"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Right Column - Text */}
+            <div style={{
+              flex: 1,
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 2
+            }}>
+              <div style={{ position: 'relative', width: '100%', maxWidth: '400px', height: '100vh' }}>
+                {carouselItems.map((item, i) => (
                   <div
-                    key={`img-${i}`}
-                    ref={el => imagesRef.current[i] = el}
+                    key={`text-${i}`}
+                    ref={el => textItemsRef.current[i] = el}
                     style={{
                       position: 'absolute',
-                      width: '380px',
-                      aspectRatio: '1',
-                      borderRadius: '24px',
-                      boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
-                      transition: 'padding 0.3s, background 0.3s',
-                      cursor: 'grab'
-                    }}
-                    onClick={() => navigate(null, i)}
-                  >
-                    <div className="img-inner" style={{
+                      top: '50%',
+                      left: 0,
+                      transform: 'translateY(-50%)',
                       width: '100%',
-                      height: '100%',
-                      borderRadius: '20px',
-                      overflow: 'hidden',
-                      backgroundColor: '#000',
-                      // Prevent backface or sub-pixel 3D rendering glitches
-                      WebkitTransform: 'translateZ(0)',
-                      backfaceVisibility: 'hidden'
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    <div className="title" style={{
+                      margin: 0,
+                      fontFamily: 'system-ui, sans-serif',
+                      letterSpacing: '-0.02em',
+                      transition: 'color 0.3s'
                     }}>
-                      <img
-                        src={images[3 + i]}
-                        alt={`Visual ${i}`}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        draggable="false"
-                      />
+                      {item.title}
+                    </div>
+                    <div className="desc" style={{
+                      color: theme.subtitleColor,
+                      fontSize: '1rem',
+                      lineHeight: 1.5,
+                      overflow: 'hidden',
+                      height: 0, // start collapsed
+                      opacity: 0,
+                      fontWeight: 500
+                    }}>
+                      {item.desc}
                     </div>
                   </div>
                 ))}
               </div>
+            </div>
 
-              {/* Right Column - Text */}
-              <div style={{
-                flex: 1,
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                zIndex: 2
-              }}>
-                <div style={{ position: 'relative', width: '100%', maxWidth: '400px', height: '100vh' }}>
-                  {carouselItems.map((item, i) => (
-                    <div
-                      key={`text-${i}`}
-                      ref={el => textItemsRef.current[i] = el}
-                      style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: 0,
-                        transform: 'translateY(-50%)',
-                        width: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center'
-                      }}
-                    >
-                      <div className="title" style={{
-                        margin: 0,
-                        fontFamily: 'system-ui, sans-serif',
-                        letterSpacing: '-0.02em',
-                        transition: 'color 0.3s'
-                      }}>
-                        {item.title}
-                      </div>
-                      <div className="desc" style={{
-                        color: theme.subtitleColor,
-                        fontSize: '1rem',
-                        lineHeight: 1.5,
-                        overflow: 'hidden',
-                        height: 0, // start collapsed
-                        opacity: 0,
-                        fontWeight: 500
-                      }}>
-                        {item.desc}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            {/* Manual Navigation Controls */}
+            <div style={{
+              position: 'absolute',
+              right: '40px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '16px',
+              zIndex: 10
+            }}>
+              <button
+                onClick={() => navigate(-1)}
+                disabled={currentIndex === 0}
+                style={{
+                  background: 'rgba(255,255,255,0.1)',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  borderRadius: '50%',
+                  width: '48px',
+                  height: '48px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: currentIndex === 0 ? 'rgba(255,255,255,0.2)' : '#fff',
+                  cursor: currentIndex === 0 ? 'default' : 'pointer',
+                  backdropFilter: 'blur(10px)',
+                  transition: 'all 0.3s'
+                }}
+                onMouseOver={(e) => { if (currentIndex !== 0) e.currentTarget.style.background = 'rgba(255,255,255,0.2)' }}
+                onMouseOut={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 15l-6-6-6 6" />
+                </svg>
+              </button>
 
-              {/* Manual Navigation Controls */}
-              <div style={{
-                position: 'absolute',
-                right: '40px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '16px',
-                zIndex: 10
-              }}>
-                <button
-                  onClick={() => navigate(-1)}
-                  disabled={currentIndex === 0}
-                  style={{
-                    background: 'rgba(255,255,255,0.1)',
-                    border: '1px solid rgba(255,255,255,0.2)',
-                    borderRadius: '50%',
-                    width: '48px',
-                    height: '48px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: currentIndex === 0 ? 'rgba(255,255,255,0.2)' : '#fff',
-                    cursor: currentIndex === 0 ? 'default' : 'pointer',
-                    backdropFilter: 'blur(10px)',
-                    transition: 'all 0.3s'
-                  }}
-                  onMouseOver={(e) => { if (currentIndex !== 0) e.currentTarget.style.background = 'rgba(255,255,255,0.2)' }}
-                  onMouseOut={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
-                >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M18 15l-6-6-6 6" />
-                  </svg>
-                </button>
-
-                <button
-                  onClick={() => navigate(1)}
-                  disabled={currentIndex === carouselItems.length - 1}
-                  style={{
-                    background: 'rgba(255,255,255,0.1)',
-                    border: '1px solid rgba(255,255,255,0.2)',
-                    borderRadius: '50%',
-                    width: '48px',
-                    height: '48px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: currentIndex === carouselItems.length - 1 ? 'rgba(255,255,255,0.2)' : '#fff',
-                    cursor: currentIndex === carouselItems.length - 1 ? 'default' : 'pointer',
-                    backdropFilter: 'blur(10px)',
-                    transition: 'all 0.3s'
-                  }}
-                  onMouseOver={(e) => { if (currentIndex !== carouselItems.length - 1) e.currentTarget.style.background = 'rgba(255,255,255,0.2)' }}
-                  onMouseOut={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
-                >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M6 9l6 6 6-6" />
-                  </svg>
-                </button>
-              </div>
+              <button
+                onClick={() => navigate(1)}
+                disabled={currentIndex === carouselItems.length - 1}
+                style={{
+                  background: 'rgba(255,255,255,0.1)',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  borderRadius: '50%',
+                  width: '48px',
+                  height: '48px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: currentIndex === carouselItems.length - 1 ? 'rgba(255,255,255,0.2)' : '#fff',
+                  cursor: currentIndex === carouselItems.length - 1 ? 'default' : 'pointer',
+                  backdropFilter: 'blur(10px)',
+                  transition: 'all 0.3s'
+                }}
+                onMouseOver={(e) => { if (currentIndex !== carouselItems.length - 1) e.currentTarget.style.background = 'rgba(255,255,255,0.2)' }}
+                onMouseOut={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </button>
             </div>
           </div>
-        )}
+        </div>
+      )}
 
-        {/* Extra Full-Width Image Sections */}
-        {images.length >= 8 && (
+      {/* Extra Full-Width Image Sections */}
+      {images.length >= 8 && title !== 'Tax Nerd' && (
+        <div style={{
+          width: '100%',
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '0', // Flush together
+          marginTop: '15vh' // Space after the carousel
+        }}>
+          <>
+            {images[6] && (
+              <div style={{ width: '100%' }}>
+                <img src={images[6]} alt="Extra Section 1" style={{ width: '100%', height: 'auto', display: 'block' }} draggable="false" />
+              </div>
+            )}
+            {images[7] && (
+              <div style={{ width: '100%' }}>
+                <img src={images[7]} alt="Extra Section 2" style={{ width: '100%', height: 'auto', display: 'block' }} draggable="false" />
+              </div>
+            )}
+          </>
+        </div>
+      )}
+
+      {/* Next Project Transition Section */}
+      {nextProject && (
+        <div style={{
+          width: '100%',
+          position: 'relative',
+          marginTop: '0vh', // Flush with previous image
+          display: 'flex',
+          flexDirection: 'column'
+        }}>
+          {/* CTA Section */}
           <div style={{
             width: '100%',
-            position: 'relative',
+            boxSizing: 'border-box',
+            background: theme.bg,
+            padding: '12vh 5vw 4vh 5vw',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            gap: '0', // Flush together
-            marginTop: '15vh' // Space after the carousel
+            justifyContent: 'center',
+            textAlign: 'center',
+            color: theme.textColor
           }}>
-            <>
-              {images[6] && (
-                <div style={{ width: '100%' }}>
-                  <img src={images[6]} alt="Extra Section 1" style={{ width: '100%', height: 'auto', display: 'block' }} draggable="false" />
-                </div>
-              )}
-              {images[7] && (
-                <div style={{ width: '100%' }}>
-                  <img src={images[7]} alt="Extra Section 2" style={{ width: '100%', height: 'auto', display: 'block' }} draggable="false" />
-                </div>
-              )}
-            </>
-          </div>
-        )}
+            <p style={{
+              fontSize: '0.8rem',
+              fontWeight: 700,
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              marginBottom: '24px'
+            }}>
+              THE INVITATION
+            </p>
+            <h2 style={{
+              fontSize: 'clamp(3rem, 6vw, 5rem)',
+              fontWeight: 900,
+              lineHeight: 1.1,
+              letterSpacing: '-0.02em',
+              marginBottom: '24px',
+              maxWidth: '800px',
+              color: theme.titleColor || theme.textColor
+            }}>
+              Ready to make some noise?
+            </h2>
+            <p style={{
+              fontSize: '1.1rem',
+              opacity: 0.8,
+              maxWidth: '600px',
+              lineHeight: 1.6,
+              marginBottom: '48px',
+              color: theme.textColor
+            }}>
+              Whether you're a scrappy start-up or a global brand<br />let's turn 'meh' into 'whoa.'
+            </p>
 
-        {/* Next Project Transition Section */}
-        {nextProject && (
+            <div style={{
+              display: 'flex',
+              gap: '16px',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              marginBottom: '24px',
+              width: '100%',
+              maxWidth: '600px'
+            }}>
+              <input
+                type="email"
+                placeholder="Your email"
+                style={{
+                  flex: '1 1 250px',
+                  padding: '16px 24px',
+                  borderRadius: '999px',
+                  border: 'none',
+                  outline: 'none',
+                  fontSize: '1rem',
+                  fontFamily: 'inherit',
+                  backgroundColor: '#fff',
+                  color: '#000'
+                }}
+              />
+              <button style={{
+                flex: '0 0 auto',
+                padding: '16px 32px',
+                borderRadius: '999px',
+                border: 'none',
+                backgroundColor: '#fff',
+                color: '#000',
+                fontWeight: 700,
+                fontSize: '1rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                fontFamily: 'inherit'
+              }}>
+                Start your movement ↗
+              </button>
+            </div>
+
+            <p style={{
+              fontSize: '0.7rem',
+              opacity: 0.5,
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              color: theme.textColor
+            }}>
+              NO SPAM. JUST POSITIVE AURA POINTS IN YOUR INBOX.
+            </p>
+          </div>
+
+          {/* The Beige Marquee Area */}
           <div style={{
             width: '100%',
+            background: theme.bg,
+            padding: '12vh 0',
             position: 'relative',
-            marginTop: '0vh', // Flush with previous image
+            overflow: 'hidden',
             display: 'flex',
-            flexDirection: 'column'
+            alignItems: 'center'
           }}>
-            {/* CTA Section */}
-            <div style={{
+            {/* Marquee Text */}
+            <div
+              className="next-marquee"
+              style={{
+                display: 'flex',
+                width: 'max-content'
+              }}
+            >
+              {[...Array(2)].map((_, i) => (
+                <div
+                  key={i}
+                  style={{
+                    whiteSpace: 'nowrap',
+                    fontFamily: '"Bricolage Grotesque", sans-serif',
+                    fontSize: '140px',
+                    fontWeight: 800,
+                    color: (title === 'nobs' || title === 'Market Square') ? '#ffffff' : '#000',
+                    opacity: 0.2,
+                    textTransform: 'uppercase',
+                    letterSpacing: '-0.03em',
+                    lineHeight: '100%',
+                    paddingRight: '50px'
+                  }}
+                >
+                  TURNING 'MEH' INTO 'WOW' TURNING 'MEH' INTO 'WOW' TURNING 'MEH' INTO 'WOW'
+                </div>
+              ))}
+            </div>
+
+            {/* Floating Character */}
+            <div
+              className="floating-character"
+              style={{
+                position: 'absolute',
+                right: '10%',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                width: '180px',
+                height: '180px',
+                zIndex: 2,
+                pointerEvents: 'none'
+              }}
+            >
+              <img src="/aure-character.png" alt="Aure Character" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+            </div>
+          </div>
+
+          {/* The Next Project Banner */}
+          <div
+            onClick={onNextProject}
+            onMouseEnter={(e) => {
+              const bg = e.currentTarget.querySelector('.next-project-bg');
+              const title = e.currentTarget.querySelector('.next-project-title');
+              if (bg) bg.style.transform = 'scale(1.05)';
+              if (bg) bg.style.filter = 'blur(5px) brightness(0.5)';
+              if (title) title.style.transform = 'scale(1.05)';
+              if (title) title.style.color = '#FF2E93';
+            }}
+            onMouseLeave={(e) => {
+              const bg = e.currentTarget.querySelector('.next-project-bg');
+              const title = e.currentTarget.querySelector('.next-project-title');
+              if (bg) bg.style.transform = 'scale(1.1)';
+              if (bg) bg.style.filter = 'blur(10px) brightness(0.6)';
+              if (title) title.style.transform = 'scale(1)';
+              if (title) title.style.color = '#fff';
+            }}
+            style={{
               width: '100%',
-              boxSizing: 'border-box',
-              backgroundColor: theme.bg,
-              padding: '12vh 5vw 4vh 5vw',
+              height: '60vh',
+              position: 'relative',
+              cursor: 'pointer',
+              overflow: 'hidden',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+            {/* Background Image */}
+            <div className="next-project-bg" style={{
+              position: 'absolute',
+              inset: 0,
+              backgroundImage: `url(${nextProject.image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              filter: 'blur(10px) brightness(0.6)',
+              transform: 'scale(1.1)', // prevent blurred edges
+              transition: 'all 0.5s cubic-bezier(0.25, 1, 0.5, 1)',
+              zIndex: 0
+            }} />
+
+            {/* Content */}
+            <div style={{
+              position: 'relative',
+              zIndex: 1,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              justifyContent: 'center',
-              textAlign: 'center',
-              color: theme.textColor
+              color: '#fff'
             }}>
-              <p style={{
-                fontSize: '0.8rem',
-                fontWeight: 700,
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
-                marginBottom: '24px'
-              }}>
-                THE INVITATION
-              </p>
-              <h2 style={{
-                fontSize: 'clamp(3rem, 6vw, 5rem)',
-                fontWeight: 900,
-                lineHeight: 1.1,
-                letterSpacing: '-0.02em',
-                marginBottom: '24px',
-                maxWidth: '800px',
-                color: theme.titleColor || theme.textColor
-              }}>
-                Ready to make some noise?
-              </h2>
-              <p style={{
-                fontSize: '1.1rem',
-                opacity: 0.8,
-                maxWidth: '600px',
-                lineHeight: 1.6,
-                marginBottom: '48px',
-                color: theme.textColor
-              }}>
-                Whether you're a scrappy start-up or a global brand<br/>let's turn 'meh' into 'whoa.'
-              </p>
-              
               <div style={{
-                display: 'flex',
-                gap: '16px',
-                flexWrap: 'wrap',
-                justifyContent: 'center',
-                marginBottom: '24px',
-                width: '100%',
-                maxWidth: '600px'
-              }}>
-                <input 
-                  type="email" 
-                  placeholder="Your email" 
-                  style={{
-                    flex: '1 1 250px',
-                    padding: '16px 24px',
-                    borderRadius: '999px',
-                    border: 'none',
-                    outline: 'none',
-                    fontSize: '1rem',
-                    fontFamily: 'inherit'
-                  }}
-                />
-                <button style={{
-                  flex: '0 0 auto',
-                  padding: '16px 32px',
-                  borderRadius: '999px',
-                  border: 'none',
-                  backgroundColor: '#fff',
-                  color: '#000',
-                  fontWeight: 700,
-                  fontSize: '1rem',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  fontFamily: 'inherit'
-                }}>
-                  Start your movement ↗
-                </button>
-              </div>
-              
-              <p style={{
-                fontSize: '0.7rem',
-                opacity: 0.5,
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                color: theme.textColor
-              }}>
-                NO SPAM. JUST POSITIVE AURA POINTS IN YOUR INBOX.
-              </p>
-            </div>
-
-            {/* The Beige Marquee Area */}
-            <div style={{
-              width: '100%',
-              backgroundColor: theme.bg,
-              padding: '12vh 0',
-              position: 'relative',
-              overflow: 'hidden',
-              display: 'flex',
-              alignItems: 'center'
-            }}>
-              {/* Marquee Text */}
-              <div
-                className="next-marquee"
-                style={{
-                  display: 'flex',
-                  width: 'max-content'
-                }}
-              >
-                {[...Array(2)].map((_, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      whiteSpace: 'nowrap',
-                      fontFamily: '"Bricolage Grotesque", sans-serif',
-                      fontSize: '140px',
-                      fontWeight: 800,
-                      color: (title === 'nobs' || title === 'Market Square') ? '#ffffff' : '#000',
-                      opacity: 0.2,
-                      textTransform: 'uppercase',
-                      letterSpacing: '-0.03em',
-                      lineHeight: '100%',
-                      paddingRight: '50px'
-                    }}
-                  >
-                    TURNING 'MEH' INTO 'WOW' TURNING 'MEH' INTO 'WOW' TURNING 'MEH' INTO 'WOW'
-                  </div>
-                ))}
-              </div>
-
-              {/* Floating Character */}
-              <div
-                className="floating-character"
-                style={{
-                  position: 'absolute',
-                  right: '10%',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  width: '180px',
-                  height: '180px',
-                  zIndex: 2,
-                  pointerEvents: 'none'
-                }}
-              >
-                <img src="/aure-character.png" alt="Aure Character" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-              </div>
-            </div>
-
-            {/* The Next Project Banner */}
-            <div
-              onClick={onNextProject}
-              onMouseEnter={(e) => {
-                const bg = e.currentTarget.querySelector('.next-project-bg');
-                const title = e.currentTarget.querySelector('.next-project-title');
-                if (bg) bg.style.transform = 'scale(1.05)';
-                if (bg) bg.style.filter = 'blur(5px) brightness(0.5)';
-                if (title) title.style.transform = 'scale(1.05)';
-                if (title) title.style.color = '#FF2E93';
-              }}
-              onMouseLeave={(e) => {
-                const bg = e.currentTarget.querySelector('.next-project-bg');
-                const title = e.currentTarget.querySelector('.next-project-title');
-                if (bg) bg.style.transform = 'scale(1.1)';
-                if (bg) bg.style.filter = 'blur(10px) brightness(0.6)';
-                if (title) title.style.transform = 'scale(1)';
-                if (title) title.style.color = '#fff';
-              }}
-              style={{
-                width: '100%',
-                height: '60vh',
-                position: 'relative',
-                cursor: 'pointer',
-                overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center'
-              }}>
-              {/* Background Image */}
-              <div className="next-project-bg" style={{
-                position: 'absolute',
-                inset: 0,
-                backgroundImage: `url(${nextProject.image})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                filter: 'blur(10px) brightness(0.6)',
-                transform: 'scale(1.1)', // prevent blurred edges
-                transition: 'all 0.5s cubic-bezier(0.25, 1, 0.5, 1)',
-                zIndex: 0
-              }} />
-
-              {/* Content */}
-              <div style={{
-                position: 'relative',
-                zIndex: 1,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                color: '#fff'
+                marginBottom: '20px',
+                opacity: 0.8
               }}>
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  marginBottom: '20px',
-                  opacity: 0.8
-                }}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: '8px' }}>
-                    <path d="M6 9l6 6 6-6" />
-                  </svg>
-                  <span style={{ fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Next Project</span>
-                </div>
-                <h2 className="next-project-title" style={{
-                  fontSize: 'clamp(3rem, 8vw, 8rem)',
-                  fontWeight: 900,
-                  margin: 0,
-                  letterSpacing: '-0.02em',
-                  transition: 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)'
-                }}>
-                  {nextProject.title}
-                </h2>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: '8px' }}>
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+                <span style={{ fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Next Project</span>
               </div>
+              <h2 className="next-project-title" style={{
+                fontSize: 'clamp(3rem, 8vw, 8rem)',
+                fontWeight: 900,
+                margin: 0,
+                letterSpacing: '-0.02em',
+                transition: 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)'
+              }}>
+                {nextProject.title}
+              </h2>
             </div>
           </div>
-        )}
+        </div>
+      )}
     </div>
   );
 }
