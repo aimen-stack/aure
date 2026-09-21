@@ -16,44 +16,6 @@ export default function PortfolioSection() {
   const [activeIndex, setActiveIndex] = useState(2);
   const navigate = useNavigate();
 
-  // Handle Swipe and Drag
-  const touchStartX = useRef(0);
-  const isDragging = useRef(false);
-
-  const handlePointerDown = (e) => {
-    isDragging.current = true;
-    touchStartX.current = e.clientX || (e.touches && e.touches[0].clientX);
-  };
-
-  const handlePointerUp = (e) => {
-    if (!isDragging.current) return;
-    isDragging.current = false;
-    const currentX = e.clientX || (e.changedTouches && e.changedTouches[0].clientX);
-    const diff = currentX - touchStartX.current;
-
-    if (diff < -50) {
-      // Swiped left -> next card
-      setActiveIndex(prev => Math.min(prev + 1, projectData.length - 1));
-    } else if (diff > 50) {
-      // Swiped right -> prev card
-      setActiveIndex(prev => Math.max(prev - 1, 0));
-    }
-  };
-
-  const wheelTimeout = useRef(null);
-  const handleWheel = (e) => {
-    if (wheelTimeout.current) return;
-    
-    const threshold = 30;
-    if (e.deltaY > threshold || e.deltaX > threshold) {
-      setActiveIndex(prev => Math.min(prev + 1, projectData.length - 1));
-      wheelTimeout.current = setTimeout(() => { wheelTimeout.current = null }, 800);
-    } else if (e.deltaY < -threshold || e.deltaX < -threshold) {
-      setActiveIndex(prev => Math.max(prev - 1, 0));
-      wheelTimeout.current = setTimeout(() => { wheelTimeout.current = null }, 800);
-    }
-  };
-
   const handleExploreClick = () => {
     navigate('/portfolio-details', { state: { activeIndex } });
   };
@@ -83,6 +45,28 @@ export default function PortfolioSection() {
           duration: 2 + i * 0.15,
           ease: "sine.inOut"
         });
+      });
+
+      // Pin the section and map scroll progress to activeIndex
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: "top top",
+        end: `+=${projectData.length * 800}`, // The more items, the longer the scroll
+        pin: true,
+        scrub: true,
+        onUpdate: (self) => {
+          const progress = self.progress;
+          let newIndex = Math.round(progress * (projectData.length - 1));
+          // Clamp to ensure it never goes out of bounds on overscroll
+          newIndex = Math.max(0, Math.min(newIndex, projectData.length - 1));
+          
+          setActiveIndex((prevIndex) => {
+            if (prevIndex !== newIndex) {
+              return newIndex;
+            }
+            return prevIndex;
+          });
+        }
       });
 
     }, sectionRef);
@@ -170,6 +154,7 @@ export default function PortfolioSection() {
           backgroundColor: '#030305',
           overflow: 'hidden',
           width: '100vw',
+          height: '100vh',
           position: 'relative',
           zIndex: 2,
           fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
@@ -178,15 +163,7 @@ export default function PortfolioSection() {
           alignItems: 'center',
           justifyContent: 'center',
           perspective: '1500px',
-          padding: '8vh 0',
-          touchAction: 'pan-y'
         }}
-        onPointerDown={handlePointerDown}
-        onPointerUp={handlePointerUp}
-        onPointerLeave={handlePointerUp}
-        onTouchStart={handlePointerDown}
-        onTouchEnd={handlePointerUp}
-        onWheel={handleWheel}
       >
         {/* Dynamic Background Glow */}
         <div style={{
@@ -309,7 +286,8 @@ export default function PortfolioSection() {
           display: 'flex',
           gap: '12px',
           zIndex: 10,
-          marginBottom: '6vh'
+          marginTop: '6vh',
+          marginBottom: '2vh'
         }}>
           {projectData.map((_, i) => (
             <div
