@@ -56,7 +56,7 @@ export default function CardsSequence() {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
-          end: () => `+=${container.scrollWidth}`, // scroll distance
+          end: () => `+=${Math.round(container.scrollWidth + window.innerHeight * 1.0)}`, // includes horizontal scroll + settle in one line + more scroll to move to next section
           pin: true,
           scrub: 1,
           invalidateOnRefresh: true,
@@ -112,6 +112,45 @@ export default function CardsSequence() {
           }
         }
       });
+
+      // 3. Settle Down Animation: after completing horizontal scroll, cards settle down into one line on screen
+      const settleStartTime = moveDuration;
+      const settleDuration = 1.6;
+
+      const getSettleValues = () => {
+        const firstCard = cardsElements[0];
+        const lastCard = cardsElements[cardsElements.length - 1];
+        if (!firstCard || !lastCard) return { x: 0, scale: 1 };
+        const firstLeft = firstCard.offsetLeft;
+        const totalW = (lastCard.offsetLeft + lastCard.offsetWidth) - firstLeft;
+        if (totalW <= 0) return { x: 0, scale: 1 };
+        const availableW = window.innerWidth * 0.90;
+        const s = Math.min(1, availableW / totalW);
+        const x = (window.innerWidth - totalW * s) / 2 - firstLeft * s;
+        return { x, scale: s };
+      };
+
+      // Settle container: center all 4 cards horizontally and settle down slightly
+      tl.to(container, {
+        x: () => getSettleValues().x,
+        scale: () => getSettleValues().scale,
+        y: 20, // settle down slightly onto the screen
+        transformOrigin: '0 50%',
+        duration: settleDuration,
+        ease: 'power2.out'
+      }, settleStartTime);
+
+      // Unblur all cards and bring them to full clarity & uniform scale in one line
+      tl.to(cardsElements, {
+        scale: 1,
+        filter: 'blur(0px) grayscale(0%)',
+        opacity: 1,
+        duration: settleDuration,
+        ease: 'power2.out'
+      }, settleStartTime);
+
+      // 4. Hold settled line state: on more scroll, section unpins and moves to next section
+      tl.to({}, { duration: 1.5 });
 
     }, sectionRef);
 
@@ -188,10 +227,12 @@ export default function CardsSequence() {
         </div>
         <h2 style={{
           margin: 0,
-          fontSize: 'clamp(2.5rem, min(6vw, 7vh), 6.5rem)',
+          fontFamily: '"Bricolage Grotesque", sans-serif',
           fontWeight: 800,
-          lineHeight: 1.05,
-          letterSpacing: '-0.04em',
+          fontSize: 'clamp(2.5rem, 7.5vw, 92.3px)',
+          lineHeight: 'clamp(2.2rem, 6vw, 73.84px)',
+          letterSpacing: '-0.03em',
+          textAlign: 'center',
           color: '#111'
         }}>
           Everything a<br />

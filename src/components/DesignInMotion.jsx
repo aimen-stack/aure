@@ -13,7 +13,8 @@ const FaceO = () => (
     background: 'linear-gradient(135deg, #FF7A00 0%, #FF2E93 100%)',
     position: 'relative',
     margin: '0 0.05em',
-    transform: 'translateY(0.08em)'
+    transform: 'translateY(0.08em)',
+    isolation: 'isolate'
   }}>
     <span style={{
       position: 'absolute', top: '35%', left: '25%', width: '15%', height: '15%',
@@ -49,6 +50,9 @@ export default function DesignInMotion() {
         loadedCount++;
         if (loadedCount === totalFrames) {
           setIsLoaded(true);
+          requestAnimationFrame(() => {
+            ScrollTrigger.refresh();
+          });
         }
       };
       imagesRef.current.push(img);
@@ -95,9 +99,6 @@ export default function DesignInMotion() {
   };
 
   useLayoutEffect(() => {
-    if (!isLoaded) return;
-    renderCanvas(0);
-
     let ctx = gsap.context(() => {
       const playhead = { frame: 0 };
       let lastFrame = 0;
@@ -142,13 +143,8 @@ export default function DesignInMotion() {
 
     }, containerRef);
 
-    requestAnimationFrame(() => {
-      ScrollTrigger.sort();
-      ScrollTrigger.refresh();
-    });
-
     return () => ctx.revert();
-  }, [isLoaded]);
+  }, []);
 
   return (
     <div ref={containerRef} style={{
@@ -188,7 +184,8 @@ export default function DesignInMotion() {
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 2,
-        pointerEvents: 'none'
+        pointerEvents: 'none',
+        mixBlendMode: 'color-dodge'
       }}>
         
         {/* DESIGN IN */}
@@ -198,7 +195,8 @@ export default function DesignInMotion() {
           fontWeight: 600,
           color: '#E0E0FF', // Soft purple-tinted white
           letterSpacing: '-0.02em',
-          whiteSpace: 'nowrap'
+          whiteSpace: 'nowrap',
+          mixBlendMode: 'color-dodge'
         }}>
           DESIGN IN
         </div>
@@ -212,7 +210,8 @@ export default function DesignInMotion() {
           letterSpacing: '-0.02em',
           whiteSpace: 'nowrap',
           display: 'flex',
-          alignItems: 'center'
+          alignItems: 'center',
+          mixBlendMode: 'color-dodge'
         }}>
           MOTI<FaceO />N
         </div>

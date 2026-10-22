@@ -8,6 +8,8 @@ export default function OrbSequence() {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
   const uiRef = useRef(null);
+  const headlineRef = useRef(null);
+  const bottomRowRef = useRef(null);
   const imagesRef = useRef([]);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -160,9 +162,36 @@ export default function OrbSequence() {
       // Fade in the UI overlay when the animation begins
       if (uiRef.current) {
         tl.fromTo(uiRef.current,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.12, ease: 'none' },
+          { autoAlpha: 0 },
+          { autoAlpha: 1, duration: 0.12, ease: 'none' },
           startDelay
+        );
+      }
+
+      // Reveal the global header when "We make movements" begins
+      const globalHeader = document.getElementById('global-header');
+      if (globalHeader) {
+        tl.fromTo(globalHeader,
+          { autoAlpha: 0, y: -20 },
+          { autoAlpha: 1, y: 0, duration: 0.12, ease: 'none' },
+          startDelay
+        );
+      }
+
+      // Blur out the text as the user scrolls down towards the next section
+      if (bottomRowRef.current) {
+        tl.fromTo(bottomRowRef.current,
+          { filter: 'blur(0px)', opacity: 1, y: 0 },
+          { filter: 'blur(16px)', opacity: 0, y: -20, duration: 0.22, ease: 'power1.in' },
+          0.70
+        );
+      }
+
+      if (headlineRef.current) {
+        tl.fromTo(headlineRef.current,
+          { filter: 'blur(0px)', opacity: 1, y: 0 },
+          { filter: 'blur(24px)', opacity: 0, y: -30, duration: 0.22, ease: 'power1.in' },
+          0.74
         );
       }
 
@@ -222,13 +251,21 @@ export default function OrbSequence() {
             fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
           }}>
 
-
+          {/* Top spacer reserving space for floating global header */}
+          <div style={{ height: '44px', width: '100%', pointerEvents: 'none' }} />
 
           {/* Bottom Layout (Hero Text + Footer) */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', pointerEvents: 'auto' }}>
 
             {/* Hero Section Typography (Bottom-Left) */}
-            <div style={{ textAlign: 'left' }}>
+            <div 
+              ref={headlineRef}
+              style={{ 
+                textAlign: 'left',
+                filter: 'blur(0px)',
+                willChange: 'filter, opacity, transform',
+              }}
+            >
               <h1 style={{ margin: 0, fontSize: 'clamp(3.5rem, 8.5vw, 7rem)', fontWeight: 800, lineHeight: 0.9, letterSpacing: '-0.03em' }}>
                 <span style={{ color: '#fff', display: 'block' }}>We make</span>
                 <span style={{
@@ -243,7 +280,18 @@ export default function OrbSequence() {
             </div>
 
             {/* Footer / Bottom Layout */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '24px' }}>
+            <div 
+              ref={bottomRowRef}
+              style={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'flex-end', 
+                flexWrap: 'wrap', 
+                gap: '24px',
+                filter: 'blur(0px)',
+                willChange: 'filter, opacity, transform',
+              }}
+            >
 
               {/* Bottom-Left Button */}
               <div style={{ flex: '1 1 0', minWidth: '200px', textAlign: 'left' }}>

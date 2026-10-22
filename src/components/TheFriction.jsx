@@ -7,7 +7,7 @@ export default function TheFriction() {
       position: 'relative',
       width: '100%',
       minHeight: '100vh',
-      backgroundColor: '#100C1F', // Dark purple/blue background from screenshot
+      backgroundColor: '#101236',
       overflow: 'hidden',
       display: 'flex',
       flexDirection: 'column',
@@ -24,7 +24,7 @@ export default function TheFriction() {
         transform: 'translateX(-50%)',
         width: '600px',
         height: '400px',
-        background: 'radial-gradient(ellipse at center, rgba(197, 219, 255, 0.6) 0%, rgba(204, 150, 255, 0.4) 30%, rgba(16, 12, 31, 0) 70%)',
+        background: 'radial-gradient(ellipse at center, rgba(197, 219, 255, 0.6) 0%, rgba(204, 150, 255, 0.4) 30%, rgba(16, 18, 54, 0) 70%)',
         borderRadius: '50%',
         filter: 'blur(60px)',
         pointerEvents: 'none'
@@ -36,7 +36,7 @@ export default function TheFriction() {
         transform: 'translateX(-50%)',
         width: '600px',
         height: '400px',
-        background: 'radial-gradient(ellipse at center, rgba(255, 230, 217, 0.6) 0%, rgba(131, 192, 255, 0.4) 30%, rgba(16, 12, 31, 0) 70%)',
+        background: 'radial-gradient(ellipse at center, rgba(255, 230, 217, 0.6) 0%, rgba(131, 192, 255, 0.4) 30%, rgba(16, 18, 54, 0) 70%)',
         borderRadius: '50%',
         filter: 'blur(60px)',
         pointerEvents: 'none'

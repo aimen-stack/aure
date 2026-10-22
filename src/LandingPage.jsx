@@ -13,7 +13,22 @@ export default function LandingPage() {
   return (
     <div style={{ backgroundColor: '#C9A38C' }}>
       {/* Global floating Header */}
-      <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', padding: '2.5rem 3rem', boxSizing: 'border-box', zIndex: 50, pointerEvents: 'none' }}>
+      <div 
+        id="global-header"
+        style={{ 
+          position: 'fixed', 
+          top: 0, 
+          left: 0, 
+          width: '100%', 
+          padding: '2.5rem 3rem', 
+          boxSizing: 'border-box', 
+          zIndex: 50, 
+          pointerEvents: 'none',
+          opacity: 0,
+          visibility: 'hidden',
+          transform: 'translateY(-20px)',
+        }}
+      >
         <Header />
       </div>
 
@@ -46,7 +61,8 @@ export default function LandingPage() {
       {/* 
         The fourth section: The Horizontal Cards Sequence.
         This handles its own GSAP horizontal scroll pinning logic.
-        We pull it up by 100vh so it slides over the end of OrbToLogoSequence's pin.
+        We pull it up by 100vh so it slides over the end of OrbToLogoSequence's pin,
+        matching the smooth section-switching effect between HeroWater and OrbSequence.
       */}
       <div style={{ position: 'relative', zIndex: 2, marginTop: '-100vh' }}>
         <CardsSequence />
