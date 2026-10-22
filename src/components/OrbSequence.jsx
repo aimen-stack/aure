@@ -16,32 +16,76 @@ export default function OrbSequence() {
   const totalFrames = 120; // frame sequence from 1 to 120
 
   useEffect(() => {
+    let isCancelled = false;
     let loadedCount = 0;
 
-    // Disable scrolling while loading
-    document.body.style.overflow = 'hidden';
+    imagesRef.current = new Array(totalFrames);
 
-    for (let i = 1; i <= totalFrames; i++) {
-      const img = new Image();
-      const paddedIndex = i.toString().padStart(3, '0');
-      img.src = `/frames/ezgif-frame-${paddedIndex}.png`;
-      img.onload = () => {
-        loadedCount++;
-        setLoadingProgress(Math.round((loadedCount / totalFrames) * 100));
-        if (loadedCount === 1) {
-          // Immediately draw frame 0 so the canvas has the temple ready for crossfade
-          renderCanvas(0);
+    const loadImage = (index) => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        const paddedIndex = (index + 1).toString().padStart(3, '0');
+        img.src = `/frames/ezgif-frame-${paddedIndex}.png`;
+        img.onload = () => {
+          if (!isCancelled) {
+            imagesRef.current[index] = img;
+            loadedCount++;
+            setLoadingProgress(Math.round((loadedCount / totalFrames) * 100));
+            if (index === 0) {
+              renderCanvas(0);
+              setIsLoaded(true);
+            }
+          }
+          resolve(img);
+        };
+        img.onerror = () => resolve(null);
+      });
+    };
+
+    // Load Frame 0 immediately so canvas & ScrollTrigger can mount with zero delay
+    loadImage(0).then(() => {
+      if (isCancelled) return;
+
+      // Load initial frames (1-14) for immediate scroll readiness
+      const initialBatch = [];
+      for (let i = 1; i < Math.min(15, totalFrames); i++) {
+        initialBatch.push(loadImage(i));
+      }
+
+      Promise.all(initialBatch).then(() => {
+        if (isCancelled) return;
+
+        // Progressively load remaining frames in small batches
+        let currentIndex = 15;
+        const loadNextBatch = () => {
+          if (isCancelled || currentIndex >= totalFrames) return;
+          const batchPromises = [];
+          const end = Math.min(currentIndex + 10, totalFrames);
+          for (let i = currentIndex; i < end; i++) {
+            batchPromises.push(loadImage(i));
+          }
+          currentIndex = end;
+          Promise.all(batchPromises).then(() => {
+            if (!isCancelled && currentIndex < totalFrames) {
+              if (window.requestIdleCallback) {
+                window.requestIdleCallback(() => loadNextBatch(), { timeout: 150 });
+              } else {
+                setTimeout(loadNextBatch, 25);
+              }
+            }
+          });
+        };
+
+        if (window.requestIdleCallback) {
+          window.requestIdleCallback(() => loadNextBatch(), { timeout: 150 });
+        } else {
+          setTimeout(loadNextBatch, 25);
         }
-        if (loadedCount === totalFrames) {
-          setIsLoaded(true);
-          document.body.style.overflow = 'auto'; // Restore scroll
-        }
-      };
-      imagesRef.current.push(img);
-    }
+      });
+    });
 
     return () => {
-      document.body.style.overflow = 'auto';
+      isCancelled = true;
     };
   }, []);
 
@@ -70,8 +114,24 @@ export default function OrbSequence() {
 
   const renderCanvas = (frameIndex) => {
     const canvas = canvasRef.current;
-    const image = imagesRef.current[frameIndex];
-    if (!canvas || !image) return;
+    if (!canvas) return;
+
+    let image = imagesRef.current[frameIndex];
+    if (!image || !image.complete || image.naturalWidth === 0) {
+      for (let offset = 1; offset < totalFrames; offset++) {
+        const prev = imagesRef.current[frameIndex - offset];
+        if (prev && prev.complete && prev.naturalWidth !== 0) {
+          image = prev;
+          break;
+        }
+        const next = imagesRef.current[frameIndex + offset];
+        if (next && next.complete && next.naturalWidth !== 0) {
+          image = next;
+          break;
+        }
+      }
+    }
+    if (!image || !image.complete || image.naturalWidth === 0) return;
 
     const context = canvas.getContext('2d');
 

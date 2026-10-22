@@ -41,28 +41,88 @@ export default function DesignInMotion() {
   const totalFrames = 50; // Based on public/orbimages
 
   useEffect(() => {
+    let isCancelled = false;
     let loadedCount = 0;
-    for (let i = 1; i <= totalFrames; i++) {
-      const img = new Image();
-      const paddedIndex = i.toString().padStart(3, '0');
-      img.src = `/orbimages/ezgif-frame-${paddedIndex}.png`;
-      img.onload = () => {
-        loadedCount++;
-        if (loadedCount === totalFrames) {
-          setIsLoaded(true);
-          requestAnimationFrame(() => {
-            ScrollTrigger.refresh();
-          });
+
+    imagesRef.current = new Array(totalFrames);
+
+    const loadImage = (index) => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        const paddedIndex = (index + 1).toString().padStart(3, '0');
+        img.src = `/orbimages/ezgif-frame-${paddedIndex}.png`;
+        img.onload = () => {
+          if (!isCancelled) {
+            imagesRef.current[index] = img;
+            loadedCount++;
+            if (index === 0) {
+              renderCanvas(0);
+              setIsLoaded(true);
+            }
+          }
+          resolve(img);
+        };
+        img.onerror = () => resolve(null);
+      });
+    };
+
+    // Load Frame 0 first so canvas has initial frame ready
+    loadImage(0).then(() => {
+      if (isCancelled) return;
+
+      // Progressively load remaining frames in small batches during idle
+      let currentIndex = 1;
+      const loadNextBatch = () => {
+        if (isCancelled || currentIndex >= totalFrames) return;
+        const batchPromises = [];
+        const end = Math.min(currentIndex + 8, totalFrames);
+        for (let i = currentIndex; i < end; i++) {
+          batchPromises.push(loadImage(i));
         }
+        currentIndex = end;
+        Promise.all(batchPromises).then(() => {
+          if (!isCancelled && currentIndex < totalFrames) {
+            if (window.requestIdleCallback) {
+              window.requestIdleCallback(() => loadNextBatch(), { timeout: 150 });
+            } else {
+              setTimeout(loadNextBatch, 30);
+            }
+          }
+        });
       };
-      imagesRef.current.push(img);
-    }
+
+      if (window.requestIdleCallback) {
+        window.requestIdleCallback(() => loadNextBatch(), { timeout: 150 });
+      } else {
+        setTimeout(loadNextBatch, 30);
+      }
+    });
+
+    return () => {
+      isCancelled = true;
+    };
   }, []);
 
   const renderCanvas = (frameIndex) => {
     const canvas = canvasRef.current;
-    const image = imagesRef.current[frameIndex];
-    if (!canvas || !image) return;
+    if (!canvas) return;
+
+    let image = imagesRef.current[frameIndex];
+    if (!image || !image.complete || image.naturalWidth === 0) {
+      for (let offset = 1; offset < totalFrames; offset++) {
+        const prev = imagesRef.current[frameIndex - offset];
+        if (prev && prev.complete && prev.naturalWidth !== 0) {
+          image = prev;
+          break;
+        }
+        const next = imagesRef.current[frameIndex + offset];
+        if (next && next.complete && next.naturalWidth !== 0) {
+          image = next;
+          break;
+        }
+      }
+    }
+    if (!image || !image.complete || image.naturalWidth === 0) return;
 
     const context = canvas.getContext('2d');
     const dpr = window.devicePixelRatio || 1;
